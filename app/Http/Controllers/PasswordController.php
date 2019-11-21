@@ -59,7 +59,7 @@ class PasswordController extends Controller
     	Mail::send('passwords.email', $data, function($message) use ($email) {
     		$message->to($email)
     				->subject("(CRM) Password Reset");
-    		$message->from('test@test.com', 'CDEC CS');
+    		$message->from('test@gmail.com', 'CDEC CS');
     	});
     }
 }
