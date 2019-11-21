@@ -2,25 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Requests;
 use App\Client;
-use App\Http\Resources\Client as ClientResource;
 use App\Company;
+use App\Http\Requests;
+use App\Http\Resources\Client as ClientResource;
 use DB;
+use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ClientsExport;
 
 class ClientsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $clients = Client::all();
 
         return ClientResource::collection($clients);
+    }
+
+    public function export($company_id)
+    {
+        $companyName = Company::findOrFail($company_id)->name;
+        return Excel::download(new ClientsExport($company_id), "clients of ".$companyName.".xlsx");
     }
 
     public function fileUpload(Request $request) {
@@ -47,23 +50,6 @@ class ClientsController extends Controller
         return new ClientResource($client[0]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        // $companies = Company::all();
-        // return view('clients.create')->with('companies', $companies);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -83,12 +69,6 @@ class ClientsController extends Controller
             return new ClientResource($client);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $client = Client::findOrFail($id);
@@ -96,24 +76,6 @@ class ClientsController extends Controller
         return new ClientResource($client);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
@@ -131,12 +93,6 @@ class ClientsController extends Controller
             return new ClientResource($client);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $client = Client::findOrFail($id);

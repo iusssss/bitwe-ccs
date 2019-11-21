@@ -19,7 +19,7 @@ class CompaniesController extends Controller
 
         return CompanyResource::collection($company);
     }
-    
+
     public function all()
     {
         $company = Company::all();

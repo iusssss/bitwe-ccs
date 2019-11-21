@@ -118,6 +118,8 @@ Route::put('user/changepass/{id}', 'UsersController@changePassword');
 // CLIENT ROUTES
 // All Clients
 Route::get('clients', 'ClientsController@index');
+// Export Users
+Route::get('clients/export/{company_id}', 'ClientsController@export');
 // 
 Route::post('client/fileUpload', 'ClientsController@fileUpload');
 // 

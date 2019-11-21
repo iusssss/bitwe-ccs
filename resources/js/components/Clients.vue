@@ -79,6 +79,10 @@
 	            		</table>
 	            	</div>
             		<button class="btn btn-primary" @click="adding = true"><span class="fa fa-plus add"></span> Add Client</button>
+	                <a :href='`/api/clients/export/${company.id}`' class="btn btn-primary mr-1">
+	                    <i class="fas fa-file-export add"></i>
+	                    Export
+	                </a>
             	</div>
 		        <div class="modal-footer">
 		            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -191,3 +195,10 @@
 		}
 	}
 </script>
+<style scoped>
+	.add {
+		height: 100%;
+		padding-right: 4px;
+		border-right: solid 1px white;
+	}
+</style>
