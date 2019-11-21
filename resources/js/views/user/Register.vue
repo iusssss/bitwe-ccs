@@ -1,7 +1,7 @@
 <template>
 	<div>
         <div class="modal-header">
-            <h3 class="modal-title text-primary">{{ currentUser ? currentUser.name : 'New Agent' }}</h3>
+            <h3 class="modal-title text-primary">{{ currentUser ? currentUser.name : 'New User' }}</h3>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -156,7 +156,7 @@
                     }).then((response) => {
                         console.log(response);
                         this.user.id = response.data.id;
-                        this.$noty.success("New Agent Created!");
+                        this.$noty.success("New User Created!");
                         this.$emit('UserCreated', {name:this.user.name, email:this.user.email, privilege: this.user.privilege});
 
                         resolve(response);
