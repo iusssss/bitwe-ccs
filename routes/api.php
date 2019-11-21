@@ -70,7 +70,7 @@ Route::get('/ticket/{id}', 'TicketController@show');
 // Update Ticket
 Route::put('/ticket/{id}', 'TicketController@update');
 // Export Tickets
-Route::get('tickets/export', 'TicketController@export');
+Route::get('tickets/export/{filter}', 'TicketController@export');
 
 Route::post('login', 'AuthController@login');
 Route::post('register', 'AuthController@register');

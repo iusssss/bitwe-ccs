@@ -1,11 +1,11 @@
 <template>
 	<div class="card">
 		<div class="card-header d-flex justify-content-between">
-			<div>
+			<div class="d-flex align-items-center">
 				<h5>Tickets</h5>
 			</div>
 			<div>
-                <a href="/api/tickets/export" class="btn btn-primary mr-1">
+                <a :href="`/api/tickets/export/${filter}`" class="btn btn-primary mr-1">
                     <i class="fas fa-file-export add"></i>
                     Export
                 </a>

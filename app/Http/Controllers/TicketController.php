@@ -21,10 +21,10 @@ class TicketController extends Controller
     	return TicketResource::collection($tickets);
     }
 
-    public function export()
+    public function export($filter)
     {
         // return Ticket::findOrFail(1911080013)->resolved[0]->created_at;
-        return Excel::download(new TicketsExport, 'tickets.xlsx');
+        return Excel::download(new TicketsExport($filter), 'tickets.xlsx');
     }
 
     public function ticketsThisYear() {
