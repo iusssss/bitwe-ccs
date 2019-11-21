@@ -7,27 +7,29 @@ use App\Http\Requests;
 use App\Http\Resources\Company as CompanyResource;
 use App\Company;
 use App\CompanyType;
+use App\Exports\CompanyExport;
+use Maatwebsite\Excel\Facades\Excel;
 use DB;
 
 class CompaniesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $company = Company::paginate(5);
 
         return CompanyResource::collection($company);
     }
-
+    
     public function all()
     {
         $company = Company::all();
 
         return CompanyResource::collection($company);
+    }
+
+    public function export()
+    {
+        return Excel::download(new CompanyExport, 'companies.xlsx');
     }
 
     public function fileUpload(Request $request) {
@@ -42,24 +44,6 @@ class CompaniesController extends Controller
             return "success";
         return "error";
     } 
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        // $companytypes = CompanyType::all();
-        // return view('companies.create')->with('companytypes', $companytypes);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -79,38 +63,12 @@ class CompaniesController extends Controller
             return new CompanyResource($company);
         }
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $company = Company::findOrFail($id);
 
         return new CompanyResource($company);
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $this->validate($request, [
@@ -130,13 +88,6 @@ class CompaniesController extends Controller
             return new CompanyResource($company);
         }
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $company = Company::findOrFail($id);

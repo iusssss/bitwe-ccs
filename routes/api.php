@@ -138,6 +138,8 @@ Route::delete('client/{id}', 'ClientsController@destroy');
 Route::get('companies', 'CompaniesController@index');
 // All Companies
 Route::get('allcompanies', 'CompaniesController@all');
+// Export Companies
+Route::get('companies/export', 'CompaniesController@export');
 // 
 Route::post('company/fileUpload', 'CompaniesController@fileUpload');
 // 
