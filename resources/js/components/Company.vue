@@ -3,7 +3,7 @@
 		<div class="card-header">
             <div class="float-left"><h3 class="text-primary">Companies</h3></div>
             <div class="text-right">
-                <a href="/api/companies/export" class="btn btn-primary mr-2">
+                <a href="/api/companies/export" class="btn btn-primary mr-1">
                     <i class="fas fa-file-export add"></i>
                     Export
                 </a>

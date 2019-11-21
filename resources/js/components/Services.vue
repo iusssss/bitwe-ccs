@@ -3,6 +3,10 @@
         <div class="card-header">
             <div class="float-left"><h3 class="text-primary">Services</h3></div>
             <div class="text-right">
+                <a href="/api/services/export" class="btn btn-primary mr-1">
+                    <i class="fas fa-file-export add"></i>
+                    Export
+                </a>
                 <button class="btn btn-primary" @click="adding = true; editing = false; service = {}">
                     <i class="fa fa-plus add"></i>
                     Add New

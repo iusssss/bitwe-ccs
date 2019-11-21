@@ -168,6 +168,8 @@ Route::delete('companytype/{id}', 'CompanyTypesController@destroy');
 // SERVICE ROUTES
 // All Services
 Route::get('services', 'ServicesController@index');
+// Export Services
+Route::get('services/export', 'ServicesController@export');
 // Single Service
 Route::get('service/{id}', 'ServicesController@show');
 // Create Service

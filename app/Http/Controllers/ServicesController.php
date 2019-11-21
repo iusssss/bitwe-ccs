@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Resources\Service as ServiceResource;
 use App\Service;
+use Illuminate\Http\Request;
+use App\Exports\ServicesExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ServicesController extends Controller
 {
@@ -21,22 +23,11 @@ class ServicesController extends Controller
         return ServiceResource::collection($services);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function export()
     {
-        // return view('services.create');
+        return Excel::download(new ServicesExport, 'services.xlsx');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -51,12 +42,6 @@ class ServicesController extends Controller
             return new ServiceResource($service);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $service = Service::findOrFail($id);
@@ -64,24 +49,6 @@ class ServicesController extends Controller
         return new ServiceResource($service);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $this->validate($request, [
@@ -97,12 +64,6 @@ class ServicesController extends Controller
             return new ServiceResource($service);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $service = Service::findOrFail($id);
