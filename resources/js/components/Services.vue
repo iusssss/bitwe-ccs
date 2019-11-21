@@ -135,3 +135,11 @@
         },
 	}
 </script>
+
+<style scoped>
+	.add {
+		height: 100%;
+		padding-right: 4px;
+		border-right: solid 1px white;
+	}
+</style>
