@@ -1,0 +1,6 @@
+export default {
+	apiUrl: "crm.test/api",
+	TWILIO_ACCOUNT_SID: "AC37f84432f9b1d446e2b066a42d3e8a12",
+	TWILIO_AUTH_TOKEN: "8c28fc2dab934baed8864f24a4373c23",
+	TWILIO_WORKSPACE_SID: "WS8f906b1b50bc1ee092e87aeb890263b0",
+}

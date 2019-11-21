@@ -1,0 +1,25 @@
+/*.login {
+	background-image: url(../../public/images/bg.jpg)
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}*/
+body {
+	background: url(../../public/images/bg.jpg) no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+.bg-custom {
+	background-color: rgba(0,0,0,.5);
+}
+.card {
+	background-color: rgba(255,255,255);
+	border: none;
+  	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+h3 {
+	margin: 3px 0px 0px 0px;
+}
