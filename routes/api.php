@@ -102,6 +102,8 @@ Route::delete('question/{id}', 'CriteriasController@destroyQuestion');
 // All Users
 Route::get('users', 'UsersController@index');
 Route::get('users-all', 'UsersController@all');
+// Export Users
+Route::get('users/export', 'UsersController@export');
 // Single User
 Route::get('user/{id}', 'UsersController@show');
 // Create User

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\UsersExport;
+use App\Http\Resources\User as UserResource;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use App\User;
-use App\Http\Resources\User as UserResource;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UsersController extends Controller
 {
@@ -15,6 +17,11 @@ class UsersController extends Controller
     	$users = User::paginate(10);
 
     	return UserResource::collection($users);
+    }
+
+    public function export()
+    {
+        return Excel::download(new UsersExport, 'users.xlsx');
     }
 
     public function all() {

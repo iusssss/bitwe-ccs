@@ -6,6 +6,10 @@
                     <div class="card-header">
                         <div class="float-left"><h3 class="text-primary">Agents</h3></div>
                         <div class="text-right">
+                            <a href="/api/users/export" class="btn btn-primary mr-1">
+                                <i class="fas fa-file-export add"></i>
+                                Export
+                            </a>
                             <router-link class="btn btn-primary" to="/manage/register" data-toggle="modal" data-target="#popup">
                                 <i class="fa fa-plus add"></i>
                                 Add New
