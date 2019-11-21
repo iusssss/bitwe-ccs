@@ -47,7 +47,15 @@
 							<div class="form-group">
 								<input type="password" class="form-control" name="password" placeholder="Password" v-model="password">
 							</div>
-							<button class="custom-btn text-white h6 mt-2">Login</button>
+							<button :disabled="logging" class="custom-btn text-white h6 mt-2">
+								<span v-if="logging">
+	                                <i class="fas fa-spinner fa-pulse"></i>
+	                                Logging in...
+	                            </span>
+								<span v-else>
+									Login
+								</span>
+							</button>
 							<hr>
 							<div class="text-right">
 								<a class="text-muted custom-link" @click="forgotPass=true">Forgot password?</a>
@@ -70,7 +78,8 @@
 				forgotPass: false,
 				email: '',
 				success: null,
-				resetting: false
+				resetting: false,
+				logging: false,
 			}
 		},
 	    // beforeCreate() {
@@ -98,6 +107,7 @@
 				})
 			},
 			login() {
+				this.logging = true;
 				this.$store.dispatch('retrieveToken', {
 					username: this.username,
 					password: this.password
@@ -108,14 +118,17 @@
 						this.userId = response.id;
 						this.$store.dispatch('retrievePrivilege');
 						this.$router.push('/home');
+						this.logging = false;
 					})
 					.catch(error => {
+						this.logging = false;
 					})
 				})
 				.catch(error => {
 					// this.$noty.error("Incorrect e-mail or password");
 					this.serverError = error.response.data;
 					this.password = '';
+					this.logging = false;
 				})
 			}
 		}
