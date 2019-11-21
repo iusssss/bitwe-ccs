@@ -1,8 +1,8 @@
 <template>
 	<div class="container-fluid">
-		<div class="position-fixed filters w-100 d-flex justify-content-end">
+		<div class="position-fixed filters w-100 d-flex justify-content-end" style="pointer-events: none;">
 			<div class="card mb-3 mr-4">
-				<div class="card-body d-flex justify-content-between">
+				<div class="card-body d-flex justify-content-between"style="pointer-events: auto;">
 					<h5 class="">Dashboard <span style="color:#38c172 !important">live</span></h5>
 					<select class="text-secondary h5 m-0 select-right" id="filter" v-model="filter">
 						<option v-for="filter in filters" :value="filter.id">
