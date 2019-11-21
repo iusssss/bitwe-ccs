@@ -1,7 +1,15 @@
 <template>
 	<div class="card">
-		<div class="card-header">
-			<h5>Tickets</h5>
+		<div class="card-header d-flex justify-content-between">
+			<div>
+				<h5>Tickets</h5>
+			</div>
+			<div>
+                <a href="/api/tickets/export" class="btn btn-primary mr-1">
+                    <i class="fas fa-file-export add"></i>
+                    Export
+                </a>
+            </div>
 		</div>
 		<div class="row card-body">
 			<div class="col-md-3">
@@ -222,6 +230,11 @@
 	}
 </script>
 <style scoped>
+	.add {
+		height: 100%;
+		padding-right: 4px;
+		border-right: solid 1px white;
+	}
 	.text-header {
 		text-align: center;
 		font-weight: bold;

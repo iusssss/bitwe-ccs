@@ -2,21 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
-use Illuminate\Http\Request;
+use App\Events\TicketCreated;
+use App\Exports\TicketsExport;
 use App\Http\Requests;
 use App\Http\Resources\Ticket as TicketResource;
 use App\Ticket;
-use App\Events\TicketCreated;
-use DB;
+use App\User;
 use Carbon\Carbon;
+use DB;
 use Event;
+use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TicketController extends Controller
 {
     public function index() {
     	$tickets = Ticket::orderBy('created_at', 'desc')->paginate(15);
     	return TicketResource::collection($tickets);
+    }
+
+    public function export()
+    {
+        // return Ticket::findOrFail(1911080013)->resolved[0]->created_at;
+        return Excel::download(new TicketsExport, 'tickets.xlsx');
     }
 
     public function ticketsThisYear() {

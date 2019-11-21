@@ -53,7 +53,7 @@ Route::put('/tempClient/{ticketId}', 'TempClientController@update');
 Route::delete('/tempClient/{id}', 'TempClientController@destroy');
 // Ticket Updates
 Route::get('/ticketUpdate/{ticketId}', 'TicketUpdatesController@index');
-// Ticket Update
+// Ticket Create Update
 Route::post('/ticketUpdate', 'TicketUpdatesController@store');
 // Tickets This Day
 Route::get('/ticketsThisDay', 'TicketController@ticketsThisDay');
@@ -69,6 +69,8 @@ Route::get('/ticketsThisYear', 'TicketController@ticketsThisYear');
 Route::get('/ticket/{id}', 'TicketController@show');
 // Update Ticket
 Route::put('/ticket/{id}', 'TicketController@update');
+// Export Tickets
+Route::get('tickets/export', 'TicketController@export');
 
 Route::post('login', 'AuthController@login');
 Route::post('register', 'AuthController@register');

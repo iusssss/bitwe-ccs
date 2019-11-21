@@ -28,6 +28,11 @@ class Ticket extends Model
     public function ticketUpdates() {
         return $this->hasMany('App\TicketUpdate', 'ticket_id');
     }
+    public function resolved() {
+        return $this->ticketUpdates()
+                ->where('resolvedBy', '<>', 'null')
+                ->orderBy('created_at', 'DESC');
+    }
     public function tempClient() {
         return $this->hasOne('App\TempClient', 'ticket_id');
     }
