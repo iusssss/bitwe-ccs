@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Resources\Transaction as TransactionResource;
 use App\Transaction;
+use App\Ticket;
+use App\TicketUpdate;
 use App\TransactionSubject;
 use App\Service;
 use DB;
@@ -19,9 +21,16 @@ class TransactionsController extends Controller
      */
     public function index()
     {
-        $transactions = Transaction::orderBy('created_at', 'desc')->paginate(15);
-
-        return TransactionResource::collection($transactions);
+        // $lastTwoDays = date("Y-m-d", strtotime('-2 days') );
+        // $updates = [];
+        // $tickets = Ticket::with('updates')->get();
+        // foreach ($tickets as $i => $ticket) {
+        //     if ($ticket->updates[0]->created_at->format('Y-m-d') <= $lastTwoDays)
+        //         $updates[$i] = $ticket->updates[0];
+        // }
+        // // $updates[1]->status = 3;
+        // // $updates[1]->save();
+        // return $updates;
     }
 
     /**

@@ -33,6 +33,10 @@ class Ticket extends Model
                 ->where('resolvedBy', '<>', 'null')
                 ->orderBy('created_at', 'DESC');
     }
+    public function updates() {
+        return $this->ticketUpdates()
+                ->orderBy('created_at', 'DESC');
+    }
     public function tempClient() {
         return $this->hasOne('App\TempClient', 'ticket_id');
     }

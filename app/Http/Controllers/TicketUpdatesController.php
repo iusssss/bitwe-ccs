@@ -20,22 +20,6 @@ class TicketUpdatesController extends Controller
         return TicketUpdateResource::collection($ticketUpdates);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $ticketUpdate = new TicketUpdate();
@@ -46,12 +30,6 @@ class TicketUpdatesController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\TicketUpdates  $ticketUpdates
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $ticketUpdate = Ticket::findOrFail($id);
@@ -59,35 +37,11 @@ class TicketUpdatesController extends Controller
         return new TicketResource($ticketUpdate);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\TicketUpdates  $ticketUpdates
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(TicketUpdates $ticketUpdates)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\TicketUpdates  $ticketUpdates
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, TicketUpdates $ticketUpdates)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\TicketUpdates  $ticketUpdates
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(TicketUpdates $ticketUpdates)
     {
         //
