@@ -11,6 +11,14 @@ use Twilio\Rest\Client;
 
 class CallbackController extends Controller
 {
+    private $record_chance = 100;
+    public function shouldRecord($chance)
+    {
+        $randomChance = rand(0, 100);
+        if ($randomChance <= $chance)
+            return true;
+        return false;
+    }
     public function assignTask()
     {
         define('post_work_activity_sid', env("TWILIO_POST_WORK_ACTIVITY_SID"));
@@ -18,7 +26,8 @@ class CallbackController extends Controller
         $dequeueInstructionModel = new \stdClass;
         $dequeueInstructionModel->instruction = "dequeue";
         $dequeueInstructionModel->post_work_activity_sid = post_work_activity_sid;
-        $dequeueInstructionModel->record = "record-from-answer";
+        if ($this->shouldRecord($this->record_chance))
+            $dequeueInstructionModel->record = "record-from-answer";
 
         $dequeueInstructionJson = json_encode($dequeueInstructionModel);
 
