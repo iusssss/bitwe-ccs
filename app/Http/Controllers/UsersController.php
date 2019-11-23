@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Helper\AppHelper as logger;
 
 class UsersController extends Controller
 {
@@ -68,8 +69,10 @@ class UsersController extends Controller
         $user->privilege = $request->input('privilege');
         $user->contact_no = '+63' . $validated['phone'];
 
-    	if ($user->save())
+    	if ($user->save()) {
+            logger::createLog('User', 'Updated a user', auth()->user()->id);
     		return new UserResource($user);
+        }
     }
 
     public function changePassword(Request $request, $id) {
@@ -77,6 +80,7 @@ class UsersController extends Controller
         $user->password = Hash::make($request->input('password'));
 
         if ($user->save())
+            logger::createLog('User', 'Changed account password', auth()->user()->id);
             return new UserResource($user);
     }
 
@@ -85,6 +89,7 @@ class UsersController extends Controller
         $user = User::findOrFail($id);
 
         if ($user->delete()) {
+            logger::createLog('User', 'Deleted a user', auth()->user()->id);
             return new UserResource($user);
         }
     }

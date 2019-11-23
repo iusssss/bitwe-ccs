@@ -128,7 +128,6 @@
 </template>
 
 <script>
-    import Axios from 'axios';
     import moment from 'moment';
     import router from '../router';
 

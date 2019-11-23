@@ -8,6 +8,7 @@ use App\Service;
 use Illuminate\Http\Request;
 use App\Exports\ServicesExport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Helper\AppHelper as logger;
 
 class ServicesController extends Controller
 {
@@ -38,8 +39,10 @@ class ServicesController extends Controller
 
         $service->name = $request->input('name');
         $service->description = $request->input('description');
-        if ($service->save())
+        if ($service->save()) {
+            logger::createLog('Service', 'Added a new service', auth()->user()->id);
             return new ServiceResource($service);
+        }
     }
 
     public function show($id)
@@ -60,15 +63,19 @@ class ServicesController extends Controller
         $service->name = $request->input('name');
         $service->description = $request->input('description');
         
-        if ($service->save())
+        if ($service->save()) {
+            logger::createLog('Service', 'Updated a service', auth()->user()->id);
             return new ServiceResource($service);
+        }
     }
 
     public function destroy($id)
     {
         $service = Service::findOrFail($id);
 
-        if ($service->delete())
+        if ($service->delete()) {
+            logger::createLog('Service', 'Deleted a service', auth()->user()->id);
             return new ServiceResource($service);
+        }
     }
 }

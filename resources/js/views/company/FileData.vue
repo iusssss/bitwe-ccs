@@ -55,6 +55,7 @@
 		methods: {
             saveData() {
             	if (this.type == 0) {
+					axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
 	            	axios.post('/api/company/fileSave', { companies: this.fileData })
 	            	.then(response => {
 	            		if (response.data == "success") {
@@ -64,6 +65,7 @@
 	            	.catch(error => {
 	            	})
             	} else {
+					axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
 	            	axios.post('/api/client/fileSave', { clients: this.fileData })
 	            	.then(response => {
 	            		if (response.data == "success") {

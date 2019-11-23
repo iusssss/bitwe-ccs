@@ -30,7 +30,6 @@
 </template>
 
 <script>
-	import Axios from 'Axios';
 	export default {
 		data() {
 			return {

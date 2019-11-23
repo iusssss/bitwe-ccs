@@ -166,6 +166,7 @@
 			assignTicket(endorsed, i) {
 				const user = this.$store.state.users.find(x => x.name == this.newTicketHandler);
 				if (user) {
+					axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
 					axios.put(`/api/ticket/${endorsed.ticket_id}`, {assignedTo: user.id})
 					.then(response => {
 						this.$noty.success("Ticket has been reassigned");
@@ -180,6 +181,7 @@
 				this.newTicketHandler = text;
 			},
 			retrieveTicketsForResigning() {
+				axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
 				axios.get('/api/endorsedTickets')
 				.then(response => {
 					this.ticketsForResigning = response.data;
@@ -194,6 +196,7 @@
 				$('#popup').modal('toggle');
 			},
 			retrieveUnregTickets() {
+				axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
 				axios.get('/api/unregistered')
 				.then(response => {
 					this.unregTickets = response.data;

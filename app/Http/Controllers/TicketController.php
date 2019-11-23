@@ -13,6 +13,7 @@ use DB;
 use Event;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Helper\AppHelper as logger;
 
 class TicketController extends Controller
 {
@@ -117,6 +118,7 @@ class TicketController extends Controller
         $ticket->service_id = $request->input('service_id');
         try {
             if ($ticket->save()) {
+                logger::createLog('Ticket', 'Added a new ticket', auth()->user()->id);
                 $ticket = new TicketResource($ticket);
                 return event(new TicketCreated($ticket));
             }
@@ -164,6 +166,7 @@ class TicketController extends Controller
     public function destroy($id) {
     	$ticket = Ticket::where('ticketId', $id)->firstOrFail();
     	if ($ticket->delete()) {
+            logger::createLog('Ticket', 'Deleted a ticket', auth()->user()->id);
     		return new TicketResource($ticket);
     	}
     }

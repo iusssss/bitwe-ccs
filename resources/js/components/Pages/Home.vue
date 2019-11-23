@@ -46,7 +46,6 @@
     import TransactionSearch from '../TransactionSearch.vue';
 	import Touchpoint from '../Touchpoint.vue';
     import TouchpointNew from '../TouchpointNew.vue';
-	import Axios from "axios";
 
 	export default {
 		name: 'app',
@@ -105,26 +104,29 @@
             onTicketCreated() {
             },
 			getServices() {
-                Axios.get(`api/services`)
+                axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
+                axios.get(`api/services`)
                     .then(response => {
                         this.services = response.data.data;
                     })
             },
             getSubjects() {
-                Axios.get('api/transactionSubjects')
+                axios.get('api/transactionSubjects')
                     .then(response => {
                         this.subjects = response.data.data;
                     })
             },
             getTicketStatuses() {
-                Axios.get('api/ticketStatuses')
+                axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
+                axios.get('api/ticketStatuses')
                 .then(response => {
                     this.ticketStatuses = response.data.data;
                     this.loading = false;
                 })
             },
             searchTransactions(search) {
-                Axios.get(`api/search?client=${search.client}&company=${search.company}&subject=${search.subject}`)
+                axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
+                axios.get(`api/search?client=${search.client}&company=${search.company}&subject=${search.subject}`)
                 .then(response => {
                     this.transactions = response.data.data;
                     this.loading = false;

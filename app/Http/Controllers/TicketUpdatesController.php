@@ -6,6 +6,7 @@ use App\TicketUpdate;
 use Illuminate\Http\Request;
 use App\Http\Resources\TicketUpdate as TicketUpdateResource;
 use App\Events\TicketUpdateCreated;
+use App\Helper\AppHelper as logger;
 
 class TicketUpdatesController extends Controller
 {
@@ -25,6 +26,7 @@ class TicketUpdatesController extends Controller
         $ticketUpdate = new TicketUpdate();
         $ticketUpdate->fill($request->all());
         if ($ticketUpdate->save()) {
+            logger::createLog('Ticket', 'Updated a ticket', auth()->user()->id);
             $ticketUpdate = new TicketUpdateResource($ticketUpdate);
             return event(new TicketUpdateCreated($ticketUpdate));
         }

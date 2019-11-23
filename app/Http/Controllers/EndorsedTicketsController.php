@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\EndorsedTicket;
 use Illuminate\Http\Request;
+use App\Helper\AppHelper as logger;
 
 class EndorsedTicketsController extends Controller
 {
@@ -34,6 +35,7 @@ class EndorsedTicketsController extends Controller
         $endorsed = new EndorsedTicket();
         $endorsed->fill($request->all());
         if ($endorsed->save()) {
+            logger::createLog('Ticket', 'Endorsed a ticket to be reassign', auth()->user()->id);
             $endorsed->user = $endorsed->user;
             return $endorsed;
         }
@@ -42,7 +44,9 @@ class EndorsedTicketsController extends Controller
     public function destroy($id)
     {
         $endorsed = EndorsedTicket::findOrFail($id);
-        if ($endorsed->delete())
+        if ($endorsed->delete()) {
+            logger::createLog('Ticket', 'Reassigned a ticket', auth()->user()->id);
             return $endorsed;
+        }
     }
 }

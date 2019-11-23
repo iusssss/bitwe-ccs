@@ -89,6 +89,7 @@
 					this.$noty.error("The percentage is over 100");
 					return;
 				}
+				axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
 				axios.put(`/api/question/${this.question.id}`, this.question)
 				.then((response) => {
 					this.$noty.success("Question updated");
@@ -105,6 +106,7 @@
 			},
 			deleteQuestion(id, i) {
 				if (confirm("Are you sure?")) {
+					axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
 					axios.delete(`/api/question/${id}`)
 					.then(response => {
 						this.$noty.success("Question deleted");
@@ -120,6 +122,7 @@
 				this.adding = true;
 			},
 			createQuestion() {
+				axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
 				axios.post('/api/question', {
 					criteria_id: this.criteria.id,
 					question: this.question
@@ -137,6 +140,7 @@
 			},
 			retrieveQuestions() {
 				if (this.criteria) {
+					axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
 					axios.get(`/api/questions/${this.criteria.id}`)
 					.then(response => {
 						this.questions = response.data;

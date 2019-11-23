@@ -232,6 +232,7 @@ export const store = new Vuex.Store({
 	},
 	actions: {
 		retrieveTicketsByUser(context) {
+			axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token;
 			return new Promise((resolve, reject) => {
 				axios.get(`/api/tickets/${context.state.user.id}`)
 				.then(response => {
@@ -254,6 +255,7 @@ export const store = new Vuex.Store({
 			})
 		},
 		updateSettings(context, settings) {
+			axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token;
 			return new Promise((resolve, reject) => {
 				axios.put(`/api/systemsetting/${settings.id}`, settings)
 				.then(response => {
@@ -263,6 +265,7 @@ export const store = new Vuex.Store({
 			})
 		},
 		retrieveSettings(context) {
+			axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token;
 			return new Promise((resolve, reject) => {
 				axios.get('/api/systemsettings')
 				.then(response => {
@@ -307,6 +310,7 @@ export const store = new Vuex.Store({
 			})
 		},
 		createTicketUpdate(context, ticketUpdate) {
+			axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token;
 			return new Promise((resolve, reject) => {
 				axios.post('/api/ticketUpdate', ticketUpdate)
 				.then((response) => {
@@ -319,6 +323,7 @@ export const store = new Vuex.Store({
 			})
 		},
 		retrieveTicketsThisYear(context) {
+			axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token;
 			axios.get('/api/ticketsThisYear')
 			.then((response) => {
 				const tickets = response.data.data;
@@ -335,6 +340,7 @@ export const store = new Vuex.Store({
 			})
 		},
 		retrieveTicketsThisYearByUser(context) {
+			axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token;
 			axios.get(`/api/ticketsThisYearByUser/${context.state.user.id}`)
 			.then((response) => {
 				const tickets = response.data.data;
@@ -369,6 +375,7 @@ export const store = new Vuex.Store({
 			})
 		},
 		retrieveUsers(context) {
+			axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token;
 			return new Promise((resolve, reject) =>  {
 				axios.get('/api/users-all')
 				.then(response => {
@@ -382,6 +389,7 @@ export const store = new Vuex.Store({
 			})
 		},
 		retrieveCsats(context) {
+			axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token;
 			return new Promise((resolve, reject) => {
 				axios.get(`/api/customer-satisfactions/${context.state.user.id}`)
 				.then((response) => {
@@ -399,6 +407,7 @@ export const store = new Vuex.Store({
 			})
 		},
 		updateTicket(context, ticket) {
+			axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token;
 			return new Promise((resolve, reject) => {
 				axios.put(`/api/ticket/${ticket.ticketId}`, ticket)
 					.then(response => {
@@ -410,6 +419,7 @@ export const store = new Vuex.Store({
 			})
 		},
 		retrieveCompanies(context) {
+			axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token;
 			if (!localStorage.getItem('companies')) {
 				return new Promise((resolve, reject) => {
 					axios.get('/api/allcompanies')
@@ -429,6 +439,7 @@ export const store = new Vuex.Store({
 			}
 		},
 		searchTicket(context, id) {
+			axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token;
 			return new Promise((resolve, reject) => {
 				axios.get(`/api/ticket/${id}`)
 				.then((response) => {
@@ -473,6 +484,7 @@ export const store = new Vuex.Store({
 		    }, 1000));
 		},
 		searchPhone(context, phone) {
+			axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token;
 			const client = context.state.clients.find(client => client.contactNumber == phone);
             if (client) {
                 context.commit('searchPhone', client);
@@ -483,6 +495,7 @@ export const store = new Vuex.Store({
             }
 		},
 		getUserByPhone(context, phone) {
+			axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token;
 			return new Promise((resolve, reject) => {
 				const user = context.state.users.find(user => user.contact_no == phone);
 				if (user) {
@@ -576,6 +589,7 @@ export const store = new Vuex.Store({
 			});
 		},
 		retrieveClients(context) {
+			axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token;
 			axios.get('api/clients')
 			.then(response => {
 				const clients = response.data.data;
@@ -726,6 +740,13 @@ export const store = new Vuex.Store({
 				.catch(error => {
 					reject(error);
 				})
+			})
+		},
+		createLog(context, log) {
+			axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token;
+			axios.post('/api/log', log)
+			.then(response => {
+				console.log(response);
 			})
 		}
 	}

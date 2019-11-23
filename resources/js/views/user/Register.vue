@@ -131,6 +131,7 @@
                 })
             },
             updateUser() {
+                axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
                 return new Promise((resolve, reject) => {
                     axios.put(`/api/user/${this.user.id}`, this.user)
                     .then(response => {
@@ -145,6 +146,7 @@
                 })
             },
             saveUser() {
+                axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
                 return new Promise((resolve, reject) => {
                     axios.post('/api/register', {
                         "name": this.user.name,

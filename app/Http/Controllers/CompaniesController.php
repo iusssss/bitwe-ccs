@@ -10,6 +10,7 @@ use App\CompanyType;
 use App\Exports\CompanyExport;
 use Maatwebsite\Excel\Facades\Excel;
 use DB;
+use App\Helper\AppHelper as logger;
 
 class CompaniesController extends Controller
 {
@@ -40,8 +41,10 @@ class CompaniesController extends Controller
 
     function fileSave(Request $request) {
         $companies = $request->input('companies');
-        if (Company::insert($companies))
+        if (Company::insert($companies)) {
+            logger::createLog('Company', 'File uploaded to add new companies', auth()->user()->id);
             return "success";
+        }
         return "error";
     } 
     public function store(Request $request)
@@ -60,6 +63,7 @@ class CompaniesController extends Controller
         $company->companytype_id = $request->input('companytypes');
         
         if ($company->save()) {
+            logger::createLog('Company', 'Added a new company', auth()->user()->id);
             return new CompanyResource($company);
         }
     }
@@ -85,6 +89,7 @@ class CompaniesController extends Controller
         $company->companytype_id = $request->input('companytypes');
         
         if ($company->save()) {
+            logger::createLog('Company', 'Updated a new company', auth()->user()->id);
             return new CompanyResource($company);
         }
     }
@@ -93,6 +98,7 @@ class CompaniesController extends Controller
         $company = Company::findOrFail($id);
 
         if ($company->delete()) {
+            logger::createLog('Company', 'Deleted a new company', auth()->user()->id);
             return new CompanyResource($company);
         }
     }

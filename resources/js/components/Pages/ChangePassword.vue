@@ -18,7 +18,9 @@
 							<input class="form-control" type="password" placeholder="Confirm New Password" v-model="confirm_password" required />
 						</div>
 						<div class="text-center mb-3">
-							<button type="submit" class="custom-btn text-white h6 mt-2" @click="checkCurrentPassword">Submit</button>
+							<button type="submit" class="custom-btn text-white h6 mt-2" @click="checkCurrentPassword">
+								<buttonLoading :loading="loading" :loadingText="'Changing Password...'" :defaultText="'Submit'" />
+							</button>
 						</div>
 					</form>
 				</div>

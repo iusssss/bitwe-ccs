@@ -5,14 +5,10 @@ namespace App\Http\Controllers;
 use App\Criteria;
 use App\Question;
 use Illuminate\Http\Request;
+use App\Helper\AppHelper as logger;
 
 class CriteriasController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $criterias = Criteria::all();
@@ -20,24 +16,7 @@ class CriteriasController extends Controller
             $criteria->questions = $criteria->questions;
         }
         return $criterias;
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    } 
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -47,6 +26,7 @@ class CriteriasController extends Controller
         $criteria = new Criteria();
         $criteria->fill($request->all());
         if ($criteria->save()) {
+            logger::createLog('Criteria', 'Added a new criteria', auth()->user()->id);
             return $criteria;
         }
     }
@@ -59,6 +39,7 @@ class CriteriasController extends Controller
         $question = new Question();
         $question->fill($request->all());
         if ($question->save()) {
+            logger::createLog('Question', 'Added a new question to a criteria', auth()->user()->id);
             return $question;
         }
     }
@@ -71,6 +52,7 @@ class CriteriasController extends Controller
         $question = Question::findOrFail($id);
         $question->fill($request->all());
         if ($question->save()) {
+            logger::createLog('Question', 'Updated a question from a criteria', auth()->user()->id);
             return $question;
         }
     }
@@ -85,38 +67,12 @@ class CriteriasController extends Controller
     public function destroyQuestion($id)
     {
         $question = Question::findOrFail($id);
-        if ($question->delete())
+        if ($question->delete()) {
+            logger::createLog('Question', 'Deleted a question from a criteria', auth()->user()->id);
             return $question;
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Criteria  $criteria
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Criteria $criteria)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Criteria  $criteria
-     * @return \Illuminate\Http\Response
-     */
-    public function edit()
-    {
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Criteria  $criteria
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
@@ -126,6 +82,7 @@ class CriteriasController extends Controller
         $criteria = Criteria::findOrFail($id);
         $criteria->fill($request->all());
         if ($criteria->save()) {
+            logger::createLog('Criteria', 'Updated a criteria', auth()->user()->id);
             return $criteria;
         }
     }
@@ -139,7 +96,9 @@ class CriteriasController extends Controller
     public function destroy($id)
     {
         $criteria = Criteria::findOrFail($id);
-        if ($criteria->delete())
+        if ($criteria->delete()) {
+            logger::createLog('Criteria', 'Deleted a criteria', auth()->user()->id);
             return $criteria;
+        }
     }
 }

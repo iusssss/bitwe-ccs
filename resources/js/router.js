@@ -25,6 +25,7 @@ import Thankyou from './components/Pages/Thankyou.vue'
 import Login from './components/Auth/Login.vue'
 import ChangePassword from './components/Pages/ChangePassword.vue'
 import Settings from './components/Pages/Settings.vue'
+import Logs from './components/Pages/Logs.vue'
 
 Vue.use(Router)
 
@@ -123,6 +124,13 @@ const router = new Router({
 			component: Settings,
 			meta: {
 				requiresSystemAdmin: true,
+			}
+		},
+		{
+			path: '/logs',
+			component: Logs,
+			meta: {
+				requiresAdmin: true,
 			}
 		},
 		{

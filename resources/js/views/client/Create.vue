@@ -40,6 +40,7 @@
 		props: ['company'],
 		methods: {
             CreateClient() {
+				axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
                 axios.post('/api/client', {
             		"fullname": this.client.fullname,
 					"email": this.client.email,
