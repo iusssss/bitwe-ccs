@@ -48,13 +48,7 @@
 	    </div>
 	    <div class="modal-footer">
 	        <button :disabled="loading" type="button" class="btn btn-primary" @click="submit">
-	        	<span v-if="loading">
-                    <i class="fas fa-spinner fa-pulse"></i>
-                    submitting...
-                </span>
-                <span v-else>
-	        		Done
-                </span>
+	        	<buttonLoading :loading="loading" :loadingText="'submitting...'" :defaultText="'Done'" />
 	        </button>
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 	    </div>

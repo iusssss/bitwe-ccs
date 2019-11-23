@@ -36,6 +36,8 @@ Route::middleware('auth:api')->group(function () {
 
 	// Scorecard
 	Route::post('/scorecard', 'ScorecardController@store');
+	// Evaluations
+	Route::get('/evaluations', 'ScorecardController@index');
 	// Route::get('/tickettest', 'TicketController@test');
 });
 

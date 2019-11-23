@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Scorecard;
+use App\Http\Resources\Evaluation;
 use App\ScorecardDetails;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,8 @@ class ScorecardController extends Controller
      */
     public function index()
     {
-        //
+        $evaluations = Scorecard::all();
+        return Evaluation::collection($evaluations);
     }
 
     /**
