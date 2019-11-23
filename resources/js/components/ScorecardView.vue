@@ -1,10 +1,10 @@
 <template>
 	<div class="modal-content">
-        <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		<div>
+	        <button type="button" class="close mr-3 mt-2" data-dismiss="modal" aria-label="Close">
 	            <span aria-hidden="true">&times;</span>
 	        </button>
-	    </div>
+        </div>
 	    <div class="modal-body" id="scorecard-viewer">
 	    	<div class="px-5">
 		        <h3 class="modal-title text-primary mb-2 mt-3">Scorecard</h3>

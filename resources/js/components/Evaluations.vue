@@ -8,13 +8,15 @@
 						<th>Evaluator</th>
 						<th>Agent</th>
 						<th>Score</th>
+						<th>Date</th>
 						<th></th>
 					</thead>
 					<tbody>
-						<tr v-if="evaluations.length > 0" v-for="evaluation in evaluations">
+						<tr v-if="evaluations.data.length > 0" v-for="evaluation in evaluations.data">
 							<td>{{ evaluation.evaluator.name }}</td>
 							<td>{{ evaluation.agent.name }}</td>
 							<td>{{ evaluation.score }}</td>
+							<td>{{ evaluation.created_at }}</td>
 							<td class="d-flex justify-content-end">
 								<button class="btn btn-primary mx-1" @click="view(evaluation)">
 									<i class="fas fa-stream"></i>
@@ -23,6 +25,7 @@
 						</tr>
 					</tbody>
 				</table>
+        		<pagination :show-disabled="true" :data="evaluations" @pagination-change-page="retrieveEvaluations" :limit="10"></pagination>
 			</div>
 		</div>
 		<div class="modal fade" id="scorecard-view" tabindex="-1" role="dialog" aria-labelledby="scorecard-view" aria-hidden="true">
@@ -38,7 +41,7 @@
 		components: { ScorecardView },
 		data() {
 			return {
-				evaluations: [],
+				evaluations: {},
 				evaluation: null
 			}
 		},
@@ -50,11 +53,12 @@
 				this.evaluation = evaluation;
 				$('#scorecard-view').modal('show');
 			},
-			retrieveEvaluations() {
+
+			retrieveEvaluations(page = 1) {
 				axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
-				axios.get('/api/evaluations')
+				axios.get('/api/evaluations?page=' + page)
 				.then(response => {
-					this.evaluations = response.data.data;
+					this.evaluations = response.data;
 				})
 			}
 		}

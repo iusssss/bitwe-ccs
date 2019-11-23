@@ -16,7 +16,7 @@ class ScorecardController extends Controller
      */
     public function index()
     {
-        $evaluations = Scorecard::all();
+        $evaluations = Scorecard::paginate(10);
         return Evaluation::collection($evaluations);
     }
 
