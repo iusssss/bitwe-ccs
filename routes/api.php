@@ -259,3 +259,11 @@ Route::put('/systemsetting/{id}', 'SystemSettingsController@update');
 Route::get('/callRecords', 'CallRecordsController@index');
 Route::get('/callRecord/{recordSid}', 'CallRecordsController@getRecord');
 Route::delete('/callRecord/{recordSid}', 'CallRecordsController@deleteRecord');
+
+// Endorsed Tickets ROUTES
+// All Endorsed Tickets
+Route::get('endorsedTickets', 'EndorsedTicketsController@index');
+// Create Endorsed Ticket
+Route::post('endorseTicket', 'EndorsedTicketsController@store');
+// Delete Endorsed Tickets
+Route::delete('endorsedTicket/{id}', 'EndorsedTicketsController@destroy');

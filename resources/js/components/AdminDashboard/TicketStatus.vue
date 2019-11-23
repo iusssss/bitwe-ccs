@@ -51,6 +51,8 @@
 			<h5 class="m-3 text-muted font-weight-bold">
 				Total Tickets: {{ totalTickets }}
 				<br>
+				<a class="text-info" href="" @click="setTickets('EndorsedTickets')" data-toggle="modal" data-target="#popup">Tickets for Resigning: {{ ticketsForResigning.length }}</a>
+				<br>
 				<a class="text-danger" href="" @click="setTickets('Unregistered')" data-toggle="modal" data-target="#popup">Unregistered Tickets: {{ unregisteredTickets.length }}</a>
 			</h5>
 		</div>
@@ -84,8 +86,30 @@
 												</tbody>
 											</table>
 										</div>
+										<div v-if="status=='EndorsedTickets'">
+											<table class="table">
+												<thead>
+													<th>Ticket #</th>
+													<th>Handler</th>
+													<th></th>
+												</thead>
+												<tbody>
+													<tr v-for="(endorsed, i) in ticketsForResigning">
+														<td>{{ endorsed.ticket_id }}</td>
+														<td>
+                    										<autocomplete @input="getUserText" :items="$store.state.users.map(u => u.name)" :placeholder="endorsed.user.name" :initialText="endorsed.user.name" />	
+														</td>
+														<td>
+															<button class="btn btn-primary" @click="assignTicket(endorsed, i)"">
+																Assign
+															</button>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
 						        		<div v-else v-for="ticket in tickets">
-					        				<transactionItem :ticket="ticket" />
+					        				<transactionItem :from="'dashboard'" :ticket="ticket" @endorsed="getEndorsement" />
 						        		</div>
 						        	</div>
 					        	</div>
@@ -114,6 +138,7 @@
 	import SaveTempClient from '../SaveTempClient.vue';
 	import moment from 'moment';
 	import TransactionItem from '../TransactionItem.vue';
+    import Autocomplete from '../Autocomplete.vue';
 	export default {
 		props: ['filter'],
 		data() {
@@ -122,16 +147,44 @@
 				tickets: null,
 				unregTickets: null,
 				tempClient: null,
+				ticketsForResigning: [],
+				newTicketHandler: null,
 			}
 		},
-		components: { TransactionItem, SaveTempClient },
+		components: { TransactionItem, SaveTempClient, Autocomplete },
 		mounted() {
+			this.retrieveTicketsForResigning();
 			this.retrieveUnregTickets();
             $("#clientPopup").on("hidden.bs.modal", function () {
                 $('#popup').modal('show');
             });
 		},
 		methods: {
+			getEndorsement(endorsed) {
+				this.ticketsForResigning.push(endorsed);
+			},
+			assignTicket(endorsed, i) {
+				const user = this.$store.state.users.find(x => x.name == this.newTicketHandler);
+				if (user) {
+					axios.put(`/api/ticket/${endorsed.ticket_id}`, {assignedTo: user.id})
+					.then(response => {
+						this.$noty.success("Ticket has been reassigned");
+						this.ticketsForResigning.splice(i, 1);
+						axios.delete(`/api/endorsedTicket/${endorsed.id}`);
+					})
+				} else {
+					this.$noty.error("User doesn't exist");
+				}
+			},
+			getUserText(text) {
+				this.newTicketHandler = text;
+			},
+			retrieveTicketsForResigning() {
+				axios.get('/api/endorsedTickets')
+				.then(response => {
+					this.ticketsForResigning = response.data;
+				})
+			},
 			removeUnregTicket(client) {
 				this.unregTickets.splice(client.index, 1);
 			},
@@ -157,6 +210,7 @@
 						break;
 					case 'Closed' : this.tickets = this.closedTickets
 						break;
+					case 'EndorsedTickets' : this.tickets = this.ticketsForResigning
 					case 'Unregistered' : this.tickets = this.unregisteredTickets
 						break;
 				}

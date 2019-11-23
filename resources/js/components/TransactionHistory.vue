@@ -2,7 +2,7 @@
 	<div class="card">
 		<div class="card-header">
 			<div class="float-left">
-				<select class="text-secondary h4 m-0 select-left align-left" id="filter" v-model="transaction_filter">
+				<select class="text-secondary h4 m-0 select-left align-left" id="filter" v-model="transaction_filter" @change="getFilter">
                     <option value="0">All Tickets</option>
                     <option value="1">My Tickets</option>
                     <option v-if="$store.getters.clientSelected" :value="'2'" selected="true">
@@ -25,7 +25,7 @@
 		<div class="card-body">
 			<!-- <div v-if="loading" class="d-flex justify-content-center"><i class="fa fa-4x fa-spin fa-spinner text-muted"></i></div> -->
 			<div class="panel-group" id="item" v-if="$store.state.tickets">
-				<transactionItem v-for="ticket in filteredStatus" :key="ticket.id" :ticket="ticket" />
+				<transactionItem :from="'home'" v-for="ticket in filteredStatus" :key="ticket.id" :ticket="ticket" />
 			</div>
 		</div>
 	</div>
@@ -46,6 +46,10 @@
 			'ticketStatuses'
 		],
 		methods: {
+			getFilter() {
+				if (this.transaction_filter == 1)
+					this.$store.dispatch('retrieveTicketsByUser')
+			},
 			getService(id) {
 				return this.services.filter(s => s.id == id);
 			},
@@ -54,7 +58,7 @@
 			}
 		},
 		mounted() {
-			this.$store.dispatch('ticketsByUser')
+			this.$store.dispatch('retrieveTicketsByUser')
 		},
 		components: {
 			transactionItem
@@ -64,7 +68,6 @@
 				if (this.transaction_filter == 0)
 					return this.$store.state.tickets;
 				else if (this.transaction_filter == 1) {
-					this.$store.dispatch('ticketsByUser')
 					return this.$store.state.ticketsByUser;
 					// return this.$store.state.tickets.filter(ticket => ticket.agent.id == this.$store.state.user.id)
 				}

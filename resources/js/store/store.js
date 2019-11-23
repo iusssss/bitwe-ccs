@@ -226,17 +226,26 @@ export const store = new Vuex.Store({
 			// add ticket at the start
 			state.tickets.unshift(ticket);
 		},
-		ticketsByUser(state, tickets) {
+		retrieveTicketsByUser(state, tickets) {
 			state.ticketsByUser = tickets;
 		}
 	},
 	actions: {
-		ticketsByUser(context) {
+		retrieveTicketsByUser(context) {
 			return new Promise((resolve, reject) => {
 				axios.get(`/api/tickets/${context.state.user.id}`)
 				.then(response => {
 					const tickets = response.data.data;
-					context.commit('ticketsByUser', tickets);
+					for (let i = 0; i < tickets.length; i++) {
+						if (!tickets[i].client) {
+							context.dispatch('retrieveTempClient', tickets[i].id)
+							.then((response) => {
+								tickets[i].client = response;
+								tickets[i].client.company = { name: response.company };
+							});
+						}
+					}
+					context.commit('retrieveTicketsByUser', tickets);
 					resolve(tickets);
 				})
 				.catch(error => {
@@ -313,6 +322,15 @@ export const store = new Vuex.Store({
 			axios.get('/api/ticketsThisYear')
 			.then((response) => {
 				const tickets = response.data.data;
+				for (let i = 0; i < tickets.length; i++) {
+					if (!tickets[i].client) {
+						context.dispatch('retrieveTempClient', tickets[i].id)
+						.then((response) => {
+							tickets[i].client = response;
+							tickets[i].client.company = { name: response.company };
+						});
+					}
+				}
 				context.commit('retrieveTickets', tickets);
 			})
 		},
@@ -587,7 +605,17 @@ export const store = new Vuex.Store({
 			axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token;
 			axios.get('api/tickets')
 			.then(response => {
-				const tickets =response.data.data;
+				const tickets = response.data.data;
+				// get temp client if client is not registered
+				for (let i = 0; i < tickets.length; i++) {
+					if (!tickets[i].client) {
+						context.dispatch('retrieveTempClient', tickets[i].id)
+						.then((response) => {
+							tickets[i].client = response;
+							tickets[i].client.company = { name: response.company };
+						});
+					}
+				}
 				context.commit('retrieveTickets', tickets);
 			})
 		},

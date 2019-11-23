@@ -50,6 +50,11 @@
 						</div>
 					</div>
 					<div class="col-md-6" v-if="updates.length > 0">
+						<div v-if="ticket.agent">
+							<div v-if="(status == 'Pending' && ticket.agent.id == $store.state.user.id) || from == 'dashboard'" class="d-flex mt-3 justify-content-end">
+								<button class="btn btn-info text-white" @click="endorse">Endorse for reassigning</button>
+							</div>
+						</div>
 						<div v-if="updates[updates.length - 1].resolvedBy">
 							<span class="text-muted">Resolved By: </span>
 							<span class="text-primary">{{ updates[updates.length - 1].resolvedBy.name }}</span>
@@ -68,17 +73,31 @@
 			}
 		},
 		props: [
-			'ticket'
+			'ticket',
+			'from'
 		],
 		mounted() {
-			if (!this.ticket.client) {
-				this.$store.dispatch('retrieveTempClient', this.ticket.id)
-				.then((response) => {
-					this.ticket.client = response;
-					this.ticket.client.company = { name: response.company };
-					// this.$store.commit('setTempClient', null);
-				});
-			}
+			// if (!this.ticket.client) {
+			// 	this.$store.dispatch('retrieveTempClient', this.ticket.id)
+			// 	.then((response) => {
+			// 		this.ticket.client = response;
+			// 		this.ticket.client.company = { name: response.company };
+			// 		console.log(this.ticket);
+			// 	});
+			// }
+		},
+		methods: {
+			endorse() {
+				axios.post('/api/endorseTicket', { ticket_id: this.ticket.id, user_id: this.ticket.agent.id })
+				.then(response => {
+					if (response.data == "error") {
+						this.$noty.error('Ticket has already been endorsed for reassigning')
+						return
+					}
+					this.$emit('endorsed', response.data);
+					this.$noty.success('Ticket endorsed to be reassign')
+				})
+			},
 		},
 		computed: {
 			updates() {
@@ -117,6 +136,9 @@
 	}
 	.Pending {
 		color: #e67e22 !important;
+	}
+	.pending-bg {
+		background-color: #e67e22 !important;
 	}
 	.Resolved {
 		color: #2ecc71 !important;

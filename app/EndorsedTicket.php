@@ -10,6 +10,6 @@ class EndorsedTicket extends Model
     protected $fillable = ['ticket_id', 'user_id'];
 
     public function user(){
-        return $this->belongsTo('App\User', 'id', 'user_id');
+        return $this->belongsTo('App\User', 'user_id');
     }
 }
