@@ -208,14 +208,16 @@
                         this.createNewTicket()
                         .then(response => {
                             if (response.data == 'duplicate') {
-                                 this.$noty.error('Network problem, please try again.');
-                                 this.creatingTicket = false;
+                                this.createTicket();
                                 return;
+                                //  this.$noty.error('Network problem, please try again.');
+                                //  this.creatingTicket = false;
+                                // return;
                             }
                             this.createTicketUpdate();
                         })
                         .catch(error => {
-                            this.$noty.error('Network problem, please try again.');
+                            // this.$noty.error('Network problem, please try again.');
                             this.creatingTicket = false;
                             return;
                         });
@@ -272,11 +274,13 @@
                     const notif = this.ticketExist ? 'Ticket Updated' : 'Ticket Created';
                     this.$noty.success(notif);
                     this.creatingTicket = false;
-                    console.log("WTF");
+
                     if (this.allowEmail)
                         this.sendEmail();
                     else
                         this.clear();
+                    if (this.$store.getters.tempClientFilled)
+                        this.$store.commit('setTempClient', null);
                     if (this.$store.getters.voipAllowed) {
                         this.$store.dispatch('stopTime');
                         this.$store.dispatch('goAvailable');
