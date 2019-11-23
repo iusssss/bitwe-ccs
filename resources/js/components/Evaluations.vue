@@ -19,9 +19,6 @@
 								<button class="btn btn-primary mx-1" @click="view(evaluation)">
 									<i class="fas fa-stream"></i>
 								</button>
-								<button class="btn btn-primary" @click="printScorecard(evaluation)">
-									<i class="fas fa-print"></i>
-								</button>
 							</td>
 						</tr>
 					</tbody>
@@ -49,9 +46,6 @@
 			this.retrieveEvaluations();
 		},
 		methods: {
-			printScorecard(evaluation) {
-
-			},
 			view(evaluation) {
 				this.evaluation = evaluation;
 				$('#scorecard-view').modal('show');

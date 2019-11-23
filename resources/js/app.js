@@ -16,6 +16,8 @@ import VueNoty from 'vuejs-noty';
 import Index from './components/layouts/Index';
 import {store} from './store/store';
 import VueTimeago from 'vue-timeago';
+import VueHtmlToPaper from 'vue-html-to-paper';
+
 
 router.beforeEach((to, from, next) => {
 	if (!store.getters.loggedIn) {
@@ -64,6 +66,20 @@ function setRouterSecurity(to, from, next) {
 		}
 	}
 }
+
+const options = {
+	name: '_blank',
+	specs: [
+		'fullscreen=yes',
+		'titlebar=yes',
+		'scrollbars=yes'
+	],
+	styles: [
+		'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css',
+	]
+}
+
+Vue.use(VueHtmlToPaper, options);
 Vue.use(VueNoty);
 Vue.use(VueTimeago, {
   name: 'Timeago',

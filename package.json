@@ -39,6 +39,7 @@
     "moment": "^2.24.0",
     "pusher-js": "^5.0.2",
     "vue-chartjs": "^3.4.2",
+    "vue-html-to-paper": "^1.1.1",
     "vue-quill-editor": "^3.0.6",
     "vue-router": "^3.0.6",
     "vue-star-rating": "^1.6.1",
