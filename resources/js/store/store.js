@@ -542,6 +542,8 @@ export const store = new Vuex.Store({
 				})
 				.catch(error => {
 					reject(error);
+					context.commit('retrieveToken', null);
+					localStorage.clear();
 				})
 			})
 		},
