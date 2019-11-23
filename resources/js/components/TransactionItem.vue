@@ -21,7 +21,7 @@
 						<hr class="m-1">
 						<p class="text-muted">Service:<span class="text-info"> {{ ticket.service.name }}</span></p>
 						<p class="text-muted">Type:<span class="text-info"> {{ ticket.type }}</span></p>
-						<p class="text-muted">Assigned Agent:<span class="text-info"> {{ ticket.agent.name }}</span></p>
+						<p class="text-muted">Assigned Agent:<span v-if="ticket.agent" class="text-info"> {{ ticket.agent.name }}</span></p>
 					</div>
 					<div class="col-md-6" v-if="ticket.client">
 						<h5 class="text-primary m-0">Client Info</h5>
