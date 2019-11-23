@@ -16,6 +16,7 @@ class CreateEndorsedTicketsTable extends Migration
         Schema::create('endorsed_tickets', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('ticket_id');
+            $table->bigInteger('user_id');
             $table->timestamps();
         });
     }
