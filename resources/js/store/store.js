@@ -365,12 +365,11 @@ export const store = new Vuex.Store({
 				})
 			})
 		},
-		retrieveCsats(context, id) {
+		retrieveCsats(context) {
 			return new Promise((resolve, reject) => {
-				axios.get(`/api/customer-satisfactions/${id}`)
+				axios.get(`/api/customer-satisfactions/${context.state.user.id}`)
 				.then((response) => {
-					const csats = response.data.data;
-					context.commit('retrieveCsats', csats);
+					const csats = response.data;
 					resolve(csats);
 				})
 			});

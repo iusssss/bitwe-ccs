@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\CustomerSatisfaction;
-use App\Http\Resources\CustomerSatisfaction as CsatResource;
 use Illuminate\Http\Request;
 use \Carbon\Carbon;
 
@@ -19,8 +18,10 @@ class CustomerSatisfactionsController extends Controller
         // Carbon::setWeekStartsAt(Carbon::SUNDAY);
         // Carbon::setWeekEndsAt(Carbon::SATURDAY);
         //Data::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->get();
-        $score = CustomerSatisfaction::where('user_id', $id)->get();
-        return CsatResource::collection($score);
+        $csats = CustomerSatisfaction::where('user_id', $id)
+                ->whereYear('created_at', date('Y'))
+                ->get();
+        return $csats;
     }
 
     /**
@@ -44,7 +45,7 @@ class CustomerSatisfactionsController extends Controller
         $csat = new CustomerSatisfaction();
         $csat->fill($request->all());
         if ($csat->save())
-            return new CsatResource($csat);
+            $csat;
     }
 
     /**

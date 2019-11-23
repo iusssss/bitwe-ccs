@@ -63,7 +63,7 @@ const router = new Router({
 		},
 		{
 			path: '/agentdashboard',
-			component: AdminDashboard,
+			component: AgentDashboard,
 			meta: {
 				requiresAuth: true,
 			}
