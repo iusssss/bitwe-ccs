@@ -23,13 +23,7 @@
 								<input type="email" class="form-control" name="email" placeholder="E-mail" v-model="email">
 							</div>
 							<button type="submit" class="custom-btn text-white h6 mt-2" :disabled="resetting">
-								<span v-if="resetting">
-	                                <i class="fas fa-spinner fa-pulse"></i>
-	                                submitting...
-	                            </span>
-								<span v-else>
-									Submit
-								</span>
+								<buttonLoading :loading="resetting" :loadingText="'submitting...'" :defaultText="'Submit'" />
 							</button>
 							<div class="text-right">
 								<a class="text-muted custom-link" @click="forgotPass=false">Sign in</a>
@@ -48,13 +42,7 @@
 								<input type="password" class="form-control" name="password" placeholder="Password" v-model="password">
 							</div>
 							<button :disabled="logging" class="custom-btn text-white h6 mt-2">
-								<span v-if="logging">
-	                                <i class="fas fa-spinner fa-pulse"></i>
-	                                Logging in...
-	                            </span>
-								<span v-else>
-									Login
-								</span>
+								<buttonLoading :loading="logging" :loadingText="'Logging in...'" :defaultText="'Login'" />
 							</button>
 							<hr>
 							<div class="text-right">

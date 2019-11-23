@@ -7,6 +7,7 @@ window.Vue = require('vue');
 Vue.component('Test', require('./Test.vue').default);
 Vue.component('worker', require('./Worker.vue').default);
 Vue.component('ServerErrors', require('./components/ServerErrors.vue').default);
+Vue.component('ButtonLoading', require('./components/ButtonLoading.vue').default);
 Vue.component('pagination', require('laravel-vue-pagination'));
 
 import 'vuejs-noty/dist/vuejs-noty.css';
