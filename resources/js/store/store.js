@@ -29,6 +29,7 @@ export const store = new Vuex.Store({
         ticketStartTime: null,
 		ticket: null,
 		tickets: null,
+		ticketsByUser: null,
 		selected_ticket: null,
 		user: JSON.parse(localStorage.getItem('user')) || null,
 		users: null,
@@ -225,8 +226,24 @@ export const store = new Vuex.Store({
 			// add ticket at the start
 			state.tickets.unshift(ticket);
 		},
+		ticketsByUser(state, tickets) {
+			state.ticketsByUser = tickets;
+		}
 	},
 	actions: {
+		ticketsByUser(context) {
+			return new Promise((resolve, reject) => {
+				axios.get(`/api/tickets/${context.state.user.id}`)
+				.then(response => {
+					const tickets = response.data.data;
+					context.commit('ticketsByUser', tickets);
+					resolve(tickets);
+				})
+				.catch(error => {
+					console.log(error);
+				})
+			})
+		},
 		updateSettings(context, settings) {
 			return new Promise((resolve, reject) => {
 				axios.put(`/api/systemsetting/${settings.id}`, settings)

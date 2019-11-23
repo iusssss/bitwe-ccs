@@ -54,6 +54,7 @@
 			}
 		},
 		mounted() {
+			this.$store.dispatch('ticketsByUser')
 		},
 		components: {
 			transactionItem
@@ -63,7 +64,9 @@
 				if (this.transaction_filter == 0)
 					return this.$store.state.tickets;
 				else if (this.transaction_filter == 1) {
-					return this.$store.state.tickets.filter(ticket => ticket.agent.id == this.$store.state.user.id)
+					this.$store.dispatch('ticketsByUser')
+					return this.$store.state.ticketsByUser;
+					// return this.$store.state.tickets.filter(ticket => ticket.agent.id == this.$store.state.user.id)
 				}
 				else if (this.clientSelected && this.transaction_filter == 2)
 					return this.$store.state.tickets.filter(ticket => ticket.client.id == this.clientSelected)

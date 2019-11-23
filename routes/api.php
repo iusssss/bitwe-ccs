@@ -65,6 +65,8 @@ Route::get('/ticketsPerDayInMonth', 'TicketController@ticketsPerDayInMonth');
 Route::get('/ticketsPerMonth', 'TicketController@ticketsPerMonth');
 // Tickets This Year
 Route::get('/ticketsThisYear', 'TicketController@ticketsThisYear');
+// Tickets by User
+Route::get('/tickets/{user_id}', 'TicketController@ticketsByUser');
 // Single Ticket
 Route::get('/ticket/{id}', 'TicketController@show');
 // Update Ticket

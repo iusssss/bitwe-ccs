@@ -27,6 +27,14 @@ class TicketController extends Controller
         return Excel::download(new TicketsExport($filter), 'tickets.xlsx');
     }
 
+    public function ticketsByUser($user_id)
+    {
+        $tickets = Ticket::where('assignedTo', $user_id)
+                    ->orderBy('created_at', 'desc')
+                    ->paginate(15);
+        return TicketResource::collection($tickets); 
+    }
+
     public function ticketsThisYear() {
         $tickets = Ticket::whereYear('created_at', date('Y'))
                     ->orderBy('created_at', 'desc')->get();
