@@ -4,7 +4,7 @@
 			<div class="col-md-6">
 				<div class="card">
                     <div class="card-header">
-                        <div class="float-left"><h3 class="text-primary">Users</h3></div>
+                        <div class="float-left"><h3 class="text-primary">Accounts</h3></div>
                         <div class="text-right">
                             <a href="/api/users/export" class="btn btn-primary mr-1">
                                 <i class="fas fa-file-export add"></i>
