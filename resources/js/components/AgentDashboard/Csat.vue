@@ -1,13 +1,16 @@
 <template>
 	<div class="card">
-		<div class="card-header"><h5>Agent Score</h5></div>
 		<div class="card-body">
+			<div class="text-center text-muted mb-3">
+				<h3><strong>Customer Satisfaction</strong></h3>
+				<hr>
+			</div>
+			<div class="d-flex justify-content-center mb-3">
+				<star-rating :show-rating="false" :glow="10" :rounded-corners="true" :rating="score" :increment="0.01" :read-only="true" />
+			</div>
 			<h3 class="text-center text-muted" :class="{'display-3': rated}">
 				{{ rated ? score : "Not yet rated" }}
 			</h3>
-			<div class="d-flex justify-content-center">
-				<star-rating :show-rating="false" :glow="10" :rounded-corners="true" :rating="score" :increment="0.01" :read-only="true" />
-			</div>
 		</div>
 	</div>
 </template>
@@ -37,7 +40,7 @@
 				for (let i = 0; i < csats.length; i++) {
 					score += csats[i].score;
 				}
-				return (score /= csats.length).toFixed(2);
+				return parseFloat((score /= csats.length).toFixed(2));
 			}
 		},
 		computed: {

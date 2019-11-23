@@ -13,11 +13,8 @@
 			</div>
 		</div>
 		<div class="row main-row">
-			<div class="col-md-8">
+			<div class="col-md-12">
 				<ticketStatus :filter="filter" />
-			</div>
-			<div class="col-md-4">
-				<Csat :filter="filter" />
 			</div>
 		</div>
 		<div class="row main-row">
@@ -27,21 +24,19 @@
 		</div>
 		<div class="row main-row">
 			<div class="col-md-12">
-				<ticketServices :filter="filter" />
+				<agentPerformance :filter="filter" />
 			</div>
 		</div>
 	</div>
 </template>
 <script>
-	import Csat from '../AgentDashboard/Csat'
-	import TicketStatus from '../AdminDashboard/TicketStatus'
-	import TicketServices from '../AdminDashboard/TicketServices'
+	import AgentPerformance from '../AgentDashboard/AgentPerformance'
+	import TicketStatus from '../AgentDashboard/TicketStatus'
 	import CallHandlingChart from '../AdminDashboard/CallHandlingChart'
 	export default {
 		components: {
-			Csat,
+			AgentPerformance,
 			TicketStatus,
-			TicketServices,
 			CallHandlingChart
 		},
 		data() {
@@ -68,7 +63,7 @@
 			}
 		},
 		mounted() {
-			this.$store.dispatch('retrieveTicketsThisYear');
+			this.$store.dispatch('retrieveTicketsThisYearByUser');
 		},
 		methods: {
 		},

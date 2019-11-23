@@ -38,6 +38,8 @@ Route::middleware('auth:api')->group(function () {
 	Route::post('/scorecard', 'ScorecardController@store');
 	// Evaluations
 	Route::get('/evaluations', 'ScorecardController@index');
+	// Evaluations By User
+	Route::get('/evaluations/{user_id}', 'ScorecardController@byUser');
 	// Route::get('/tickettest', 'TicketController@test');
 });
 
@@ -67,6 +69,8 @@ Route::get('/ticketsPerDayInMonth', 'TicketController@ticketsPerDayInMonth');
 Route::get('/ticketsPerMonth', 'TicketController@ticketsPerMonth');
 // Tickets This Year
 Route::get('/ticketsThisYear', 'TicketController@ticketsThisYear');
+// Tickets This Year
+Route::get('/ticketsThisYearByUser/{user_id}', 'TicketController@ticketsThisYearByUser');
 // Tickets by User
 Route::get('/tickets/{user_id}', 'TicketController@ticketsByUser');
 // Single Ticket

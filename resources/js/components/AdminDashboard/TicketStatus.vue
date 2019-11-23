@@ -100,7 +100,7 @@
                     										<autocomplete @input="getUserText" :items="$store.state.users.map(u => u.name)" :placeholder="endorsed.user.name" :initialText="endorsed.user.name" />	
 														</td>
 														<td>
-															<button class="btn btn-primary" @click="assignTicket(endorsed, i)"">
+															<button class="btn btn-primary" @click="assignTicket(endorsed, i)">
 																Assign
 															</button>
 														</td>

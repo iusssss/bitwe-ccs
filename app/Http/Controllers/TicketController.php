@@ -41,6 +41,13 @@ class TicketController extends Controller
         return TicketResource::collection($tickets);
     } 
 
+    public function ticketsThisYearByUser($user_id) {
+        $tickets = Ticket::where('assignedTo', $user_id)
+                    ->whereYear('created_at', date('Y'))
+                    ->orderBy('created_at', 'desc')->get();
+        return TicketResource::collection($tickets);
+    }
+
     public function ticketsPerMonth() {
         $tickets = DB::table('tickets as t')
                 ->select(DB::raw("s.name,

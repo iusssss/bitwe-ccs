@@ -38,6 +38,7 @@
 <script>
 	import ScorecardView from './ScorecardView.vue';
 	export default {
+		props: ['filter'],
 		components: { ScorecardView },
 		data() {
 			return {

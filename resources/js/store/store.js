@@ -334,6 +334,22 @@ export const store = new Vuex.Store({
 				context.commit('retrieveTickets', tickets);
 			})
 		},
+		retrieveTicketsThisYearByUser(context) {
+			axios.get(`/api/ticketsThisYearByUser/${context.state.user.id}`)
+			.then((response) => {
+				const tickets = response.data.data;
+				for (let i = 0; i < tickets.length; i++) {
+					if (!tickets[i].client) {
+						context.dispatch('retrieveTempClient', tickets[i].id)
+						.then((response) => {
+							tickets[i].client = response;
+							tickets[i].client.company = { name: response.company };
+						});
+					}
+				}
+				context.commit('retrieveTickets', tickets);
+			})
+		},
 		retrieveWorkers(context) {
             context.state.twilioWorkspace.workers.fetch(function(error, workerList) {
                 if(error) {

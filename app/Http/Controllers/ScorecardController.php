@@ -16,10 +16,17 @@ class ScorecardController extends Controller
      */
     public function index()
     {
-        $evaluations = Scorecard::paginate(10);
+        $evaluations = Scorecard::orderBy('created_at', 'DESC')->paginate(10);
         return Evaluation::collection($evaluations);
     }
 
+    public function byUser($user_id)
+    {
+        $evaluations = Scorecard::where('agent_id', $user_id)
+                    ->orderBy('created_at', 'DESC')
+                    ->paginate(10);
+        return Evaluation::collection($evaluations);
+    }
     /**
      * Show the form for creating a new resource.
      *
