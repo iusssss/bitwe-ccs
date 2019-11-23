@@ -6,14 +6,10 @@ use App\Scorecard;
 use App\Http\Resources\Evaluation;
 use App\ScorecardDetails;
 use Illuminate\Http\Request;
+use App\Helper\AppHelper as logger;
 
 class ScorecardController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $evaluations = Scorecard::orderBy('created_at', 'DESC')->paginate(10);
@@ -27,27 +23,9 @@ class ScorecardController extends Controller
                     ->paginate(10);
         return Evaluation::collection($evaluations);
     }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        // $i = 0;
-        // $j = 0;
-        // return $request->input("criterias.$i.questions.$j.confidence");
         $scorecard = new Scorecard();
         $scorecard->agent_id = $request->input("agent_id");
         $scorecard->admin_id = auth()->user()->id;
@@ -66,57 +44,13 @@ class ScorecardController extends Controller
                     $details->save();
                 } 
             }
+            logger::createLog('Scorecard', 'Evaluated a call recording of an agent', auth()->user()->id);
             return "SUCCESS";
         }
-        // $i = 1;
-        // return $request->input("criterias.$i.name");
 
-        // $criteria_names = [];
-        // $criteria_percentages = [];
-        // $questions = [];
         return count($request->all());
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Scorecard  $scorecard
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Scorecard $scorecard)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Scorecard  $scorecard
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Scorecard $scorecard)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Scorecard  $scorecard
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Scorecard $scorecard)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Scorecard  $scorecard
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Scorecard $scorecard)
     {
         //

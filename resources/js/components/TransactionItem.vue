@@ -88,6 +88,7 @@
 		},
 		methods: {
 			endorse() {
+				axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
 				axios.post('/api/endorseTicket', { ticket_id: this.ticket.id, user_id: this.ticket.agent.id })
 				.then(response => {
 					if (response.data == "error") {

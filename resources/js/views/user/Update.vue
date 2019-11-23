@@ -29,7 +29,6 @@
 </template>
 
 <script>
-	import Axios from 'Axios';
 	export default {
 		data() {
 			return {
@@ -48,12 +47,14 @@
 		},
 		methods: {
             getToken() {
-                Axios.get("api/admin")
+				axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
+                axios.get("api/admin")
                 .then((response) => {
                     this.token = response.data;
                 })
             },
             CreateUser() {
+				axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
             	if (this.user.password !== this.user.confirmPassword) {
             		this.$noty.error("Password and confirm password must match");
             		return;
@@ -70,7 +71,7 @@
                             return;
                         }
                         console.log("FriendlyName: "+worker.friendlyName);
-                        Axios.post('api/user', {
+                        axios.post('api/user', {
 		            		"name": ref.user.name,
 		            		"email": ref.user.email,
 		            		"password": ref.user.password,

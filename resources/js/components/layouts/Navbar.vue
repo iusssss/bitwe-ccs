@@ -35,6 +35,7 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                             <router-link  v-if="$store.getters.isSystemAdmin" class="dropdown-item" to="/settings">Settings</router-link>
+                            <router-link class="dropdown-item" to="/logs">Logs</router-link>
                             <router-link class="dropdown-item" to="/changepassword">Change Password</router-link>
                             <a class="dropdown-item" @click="logout">
                                 logout

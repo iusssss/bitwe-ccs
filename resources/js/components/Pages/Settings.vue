@@ -80,6 +80,7 @@
 				this.path = path;
 			},
 			getRestorePaths() {
+				axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
 				axios.get('/api/restorePaths')
 				.then(response => {
 					this.paths = response.data;
@@ -88,16 +89,22 @@
 			},
 			backup() {
 				this.loading = true;
+				axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
 				axios.post('/api/backup')
 				.then(response => {
 					this.loading = false;
 					this.$noty.success('Database backup successful')
 					this.getRestorePaths();
 				})
+				.catch(error => {
+					this.loading = false;
+					console.log(error);
+				})
 			},
 			restore() {
 				if (confirm("Are you sure you want to restore your database from this backup?")) {
 					this.restoring = true;
+					axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
 					axios.post('/api/restore', { path: this.path })
 					.then(response => {
 						this.restoring = false;

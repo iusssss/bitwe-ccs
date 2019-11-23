@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Helper\AppHelper as logger;
 
 class AuthController extends Controller
 {
@@ -40,7 +41,7 @@ class AuthController extends Controller
             'password' => ['required', 'string', 'min:5', 'max:25', 'unique:users'],
             'phone_number' => ['required','regex:/(9)[0-9]{9}/','max:10']
 		]);
-		return User::create([
+		$user = User::create([
 			'name' => $validated['name'],
 			'email' => $validated['email'],
 			'password' => Hash::make($validated['password']),
@@ -48,13 +49,15 @@ class AuthController extends Controller
             'privilege' => $request->privilege,
             'contact_no' => '+63' . $validated['phone_number'],
 		]);
+        logger::createLog('User', 'Registered a user', auth()->user()->id);
+        return $user;
     }
 
     function logout() {
+        logger::createLog('User', 'Logged out', auth()->user()->id);
     	auth()->user()->tokens->each(function ($token, $key) {
     		$token->delete();
     	});
-
     	return response()->json('Logged out successfully', 200);
     }
 }

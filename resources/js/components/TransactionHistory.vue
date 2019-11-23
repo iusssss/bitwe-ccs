@@ -32,7 +32,6 @@
 </template>
 
 <script>
-	import Axios from "axios";
 	import transactionItem from "./TransactionItem";
 
 	export default {

@@ -10,6 +10,7 @@ use DB;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ClientsExport;
+use App\Helper\AppHelper as logger;
 
 class ClientsController extends Controller
 {
@@ -34,8 +35,10 @@ class ClientsController extends Controller
 
     function fileSave(Request $request) {
         $clients = $request->input('clients');
-        if (Client::insert($clients))
+        if (Client::insert($clients)) {
+            logger::createLog('Client', 'File uploaded to add new clients', auth()->user()->id);
             return "success";
+        }
         return "error";
     } 
 
@@ -65,8 +68,10 @@ class ClientsController extends Controller
         $client->contactNumber = $request->input('phone_number');
         $client->company_id = $request->input('company_id');
 
-        if ($client->save())
+        if ($client->save()) {
+            logger::createLog('Client', 'Added new client', auth()->user()->id);
             return new ClientResource($client);
+        }
     }
 
     public function show($id)
@@ -89,8 +94,10 @@ class ClientsController extends Controller
         $client->email = $request->input('email');
         $client->contactNumber = $request->input('contactNumber');
 
-        if ($client->save())
+        if ($client->save()) {
+            logger::createLog('Client', 'Updated a client', auth()->user()->id);
             return new ClientResource($client);
+        }
     }
 
     public function destroy($id)
@@ -98,6 +105,7 @@ class ClientsController extends Controller
         $client = Client::findOrFail($id);
 
         if ($client->delete()) {
+            logger::createLog('Client', 'Deleted new client', auth()->user()->id);
             return new ClientResource($client);
         }
     }

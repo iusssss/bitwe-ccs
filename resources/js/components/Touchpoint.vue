@@ -28,7 +28,6 @@
 	import touchpointButton from "./TouchpointButton";
 	import statusBadge from "./StatusBadge";
 	import moment from 'moment';
-	import Axios from 'Axios';
 	import howler from 'Howler';
 	export default {
 		data() {

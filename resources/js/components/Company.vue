@@ -143,6 +143,7 @@
 				this.searchText = text;
 			},
 			updateCompany() {
+				axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
 				axios.put(`/api/company/${this.company.id}`, this.company)
 				.then((response) => {
                		this.$noty.success("Company updated");
@@ -158,6 +159,7 @@
 				this.company = company;
 			},
 			createCompany() {
+				axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
                 axios.post('/api/company', {
             		"name": this.company.name,
             		"email": this.company.email,
@@ -175,12 +177,14 @@
             	})
             },
             getCompanyResults(page = 1) {
+				axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
                 axios.get('/api/companies?page=' + page)
                 .then(response => {
                     this.companies = response.data;
                 });
             },
             LoadCompanies() {
+				axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
                 axios.get("/api/companies")
                 .then((response) => {
                     this.companies = response.data;
@@ -191,6 +195,7 @@
 			},
 			deleteCompany(company, i) {
 				if (confirm(`Are you sure you want to remove ${company.name}?`)) {
+					axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
 					axios.delete(`api/company/${company.id}`)
 					.then(response => {
 						this.companies.data.splice(i, 1);
@@ -205,6 +210,7 @@
 				}
 				let formData = new FormData();
 				formData.append('file', this.file);
+				axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
 				axios.post('/api/company/fileUpload', formData, {
 					headers: {
 						'Content-Type': 'multipart/form-data'
@@ -236,6 +242,7 @@
 				this.clients.push(client);
 			},
 			loadClients() {
+				axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
 				axios.get(`/api/clients/company/${this.company.id}`)
 				.then((response) => {
 					this.clients = response.data.data;

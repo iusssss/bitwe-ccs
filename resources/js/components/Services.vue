@@ -92,6 +92,7 @@
 		methods: {
 			deleteService(service) {
 				if (confirm(`Are you sure you want to delete service: ${service.name}?`)) {
+					axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
 					axios.delete(`/api/service/${service.id}`)
 					.then(response => {
 						this.$noty.success("Service deleted");
@@ -100,6 +101,7 @@
 				}
 			},
 			updateService() {
+				axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
 				axios.put(`/api/service/${this.service.id}`, this.service)
 				.then(response => {
 					this.$noty.success("Service updated");
@@ -116,6 +118,7 @@
 				this.service = service;
 			},
             createService() {
+				axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
                 axios.post('/api/service', {
                     "name": this.service.name,
                     "description": this.service.description,

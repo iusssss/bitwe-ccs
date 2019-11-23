@@ -114,6 +114,7 @@
 					this.$noty.error("The percentage is over 100");
 					return;
 				}
+				axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
 				axios.put(`/api/criteria/${this.criteria.id}`, this.criteria)
 				.then((response) => {
 					this.$noty.success("Criteria updated");
@@ -130,6 +131,7 @@
 			},
 			deleteCriteria(id, i) {
 				if (confirm('Are you sure?')) {
+					axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
 					axios.delete(`/api/criteria/${id}`)
 					.then(response => {
 						this.$noty.success('Successfully deleted');
@@ -155,6 +157,7 @@
 				this.createCriteria(newCriteria);
 			},
 			createCriteria(criteria) {
+				axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
 				axios.post('/api/criteria', criteria)
 				.then((response) => {
 					this.$noty.success("New criteria was successfully added");
@@ -169,6 +172,7 @@
 				})
 			},
 			retrieveCriterias() {
+				axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
 				axios.get('/api/criterias')
 				.then(response => {
 					this.criterias = response.data;

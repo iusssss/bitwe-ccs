@@ -24,7 +24,6 @@
 </template>
 
 <script>
-    import Axios from 'Axios';
     export default {
         data() {
             return {
@@ -36,7 +35,8 @@
         },
         methods: {
             CreateService() {
-                Axios.post('/api/service', {
+                axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
+                axios.post('/api/service', {
                     "name": this.service.name,
                     "description": this.service.description,
                 }).then((response) => {

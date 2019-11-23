@@ -58,6 +58,7 @@
 		                    }
 		                );
 					}
+					axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
 					axios.delete(`/api/user/${user.id}`)
 					.then(response => {
 						this.$noty.success("User successfully deleted");

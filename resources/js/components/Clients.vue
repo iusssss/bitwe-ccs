@@ -109,6 +109,7 @@
 		},
 		methods: {
 			updateClient() {
+				axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
 				axios.put(`/api/client/${this.client.id}`, this.client)
 				.then((response) => {
                		this.$noty.success(`Client updated`);
@@ -125,6 +126,7 @@
 			},
 			deleteClient(client, i) {
 				if (confirm(`Are you sure you want to remove ${client.fullname}?`)) {
+					axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
 					axios.delete(`api/client/${client.id}`)
 					.then(response => {
 						this.$emit('deleteClient', i);
@@ -133,6 +135,7 @@
 				}
 			},
 			createClient() {
+				axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
 				axios.post('/api/client', {
             		"fullname": this.client.fullname,
 					"email": this.client.email,
@@ -158,6 +161,7 @@
                 $('#clientPopup').modal('hide');
 				let formData = new FormData();
 				formData.append('file', this.fileClient);
+				axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
 				axios.post('/api/client/fileUpload', formData, {
 					headers: {
 						'Content-Type': 'multipart/form-data'

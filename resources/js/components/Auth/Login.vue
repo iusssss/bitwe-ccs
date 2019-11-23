@@ -103,6 +103,11 @@
 				.then(response => {
 					this.$store.dispatch('retrieveUser')
 					.then(response => {
+						let log = {};
+						log.table = "User";
+						log.description = "Logged in";
+						log.user_id = this.$store.state.user.id;
+						this.$store.dispatch('createLog', log)
 						this.userId = response.id;
 						this.$store.dispatch('retrievePrivilege');
 						this.$router.push('/home');
@@ -114,6 +119,7 @@
 				})
 				.catch(error => {
 					// this.$noty.error("Incorrect e-mail or password");
+					console.log(error);
 					this.serverErrors.push([error.response.data]);
 
 					this.password = '';

@@ -81,30 +81,35 @@
 				this.toggle = this.toggle == "Chart" ? "Table" : "Chart";
 			},
 			getServices() {
+				axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
 				axios.get('/api/services')
 				.then((response) => {
 					this.services = response.data.data;
 				})
 			},
 			getTicketsPerMonth() {
+				axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
 				axios.get('/api/ticketsPerMonth')
 				.then((response) => {
 					this.perMonth = response.data;
 				})
 			},
 			getTicketsPerDayInMonth() {
+				axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
 				axios.get('/api/ticketsPerDayInMonth')
 				.then((response) => {
 					this.perDayInMonth = response.data;
 				})
 			},
 			getTicketsPerWeek() {
+				axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
 				axios.get('/api/ticketsPerWeek')
 				.then((response) => {
 					this.perWeek = response.data;
 				})
 			},
 			getTicketsThisDay() {
+				axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
 				axios.get('/api/ticketsThisDay')
 				.then((response) => {
 					this.thisDay = response.data;
