@@ -273,3 +273,7 @@ Route::get('endorsedTickets', 'EndorsedTicketsController@index');
 Route::post('endorseTicket', 'EndorsedTicketsController@store');
 // Delete Endorsed Tickets
 Route::delete('endorsedTicket/{id}', 'EndorsedTicketsController@destroy');
+
+Route::post('backup', 'BackupsController@backup');
+Route::post('restore', 'BackupsController@restore');
+Route::get('restorePaths', 'BackupsController@restorePaths');

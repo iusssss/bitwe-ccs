@@ -179,6 +179,7 @@ return [
         laravel-excel
         */
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        'Cornford\Backup\Providers\BackupServiceProvider',
     ],
 
     /*
@@ -235,6 +236,7 @@ return [
         laravel-excel
         */
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Backup' => 'Cornford\Backup\Facades\Backup',
     ],
 
 ];
