@@ -17,7 +17,7 @@
 						<h1 class="font-weight-bold title">Forgot Password</h1>
 						<hr>
 						<div v-if="success" class="alert alert-success text-left">{{ success }}</div>
-						<div v-if="serverError" class="alert alert-danger text-left">{{ serverError }}</div>
+						<serverErrors :serverErrors="serverErrors" />
 						<form action="#" @submit.prevent="forgotPassword">
 							<div class="form-group">
 								<input type="email" class="form-control" name="email" placeholder="E-mail" v-model="email">
@@ -26,14 +26,14 @@
 								<buttonLoading :loading="resetting" :loadingText="'submitting...'" :defaultText="'Submit'" />
 							</button>
 							<div class="text-right">
-								<a class="text-muted custom-link" @click="forgotPass=false">Sign in</a>
+								<a class="text-muted custom-link" @click="forgotPass=false; serverErrors=[]">Sign in</a>
 							</div>
 						</form>
 					</div>
 					<div v-else class="text-center">
 						<h1 class="font-weight-bold title">Login</h1>
 						<hr>
-						<div v-if="serverError" class="alert alert-danger text-left">{{ serverError }}</div>
+						<serverErrors :serverErrors="serverErrors" />
 						<form action="#" @submit.prevent="login">
 							<div class="form-group">
 								<input type="" class="form-control" name="username" placeholder="E-mail" v-model="username">
@@ -46,7 +46,7 @@
 							</button>
 							<hr>
 							<div class="text-right">
-								<a class="text-muted custom-link" @click="forgotPass=true">Forgot password?</a>
+								<a class="text-muted custom-link" @click="forgotPass=true; serverErrors=[]">Forgot password?</a>
 							</div>
 						</form>
 					</div>
@@ -62,7 +62,7 @@
 			return {
 				username: '',
 				password: '',
-				serverError: null,
+				serverErrors: [],
 				forgotPass: false,
 				email: '',
 				success: null,
@@ -84,13 +84,13 @@
 					const result = response.data;
 					if (!result) {
 						this.resetting = false;
-						this.serverError = "Email doesn't exist";
+						this.serverErrors.push(["Email doesn't exist"]);
 					}
 					else {
 						this.resetting = false;
 						this.success = "Password reset link sent to your email";
 						this.email = '';
-						console.log(result);
+						this.serverErrors = [];
 					}
 				})
 			},
@@ -114,7 +114,8 @@
 				})
 				.catch(error => {
 					// this.$noty.error("Incorrect e-mail or password");
-					this.serverError = error.response.data;
+					this.serverErrors.push([error.response.data]);
+
 					this.password = '';
 					this.logging = false;
 				})

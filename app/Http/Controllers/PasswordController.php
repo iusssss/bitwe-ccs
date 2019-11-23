@@ -32,7 +32,7 @@ class PasswordController extends Controller
     	$user = $this->validateToken($token);
     	$user->password = Hash::make($request->input('password'));
     	if ($user->save()) {
-    		DB::table('password_resets')->where('token', $token)->delete();
+    		DB::table('password_resets')->where('email', $user->email)->delete();
     		return 'success';
     	}
     }
