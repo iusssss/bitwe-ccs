@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import moment from 'moment';
+import router from '../router'
 
 Vue.use(Vuex);
 
@@ -544,6 +545,7 @@ export const store = new Vuex.Store({
 					reject(error);
 					context.commit('retrieveToken', null);
 					localStorage.clear();
+					router.push('/')
 				})
 			})
 		},
