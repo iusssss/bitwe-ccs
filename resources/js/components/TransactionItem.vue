@@ -51,7 +51,7 @@
 					</div>
 					<div class="col-md-6" v-if="updates.length > 0">
 						<div v-if="ticket.agent">
-							<div v-if="(status == 'Pending' && ticket.agent.id == $store.state.user.id) || from == 'dashboard'" class="d-flex mt-3 justify-content-end">
+							<div v-if="status == 'Pending' && (ticket.agent.id == $store.state.user.id || from == 'dashboard')" class="d-flex mt-3 justify-content-end">
 								<button class="btn btn-info text-white" @click="endorse">Endorse for reassigning</button>
 							</div>
 						</div>
