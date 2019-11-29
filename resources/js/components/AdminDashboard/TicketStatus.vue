@@ -49,7 +49,7 @@
 				</div>
 			</div>
 			<h5 class="m-3 text-muted font-weight-bold">
-				Total Tickets: {{ totalTickets }}
+				<a class="text-muted" href="" @click="setTickets('AllTickets')" data-toggle="modal" data-target="#popup">Total Tickets: {{ totalTickets }}</a>
 				<br>
 				<a class="text-info" href="" @click="setTickets('EndorsedTickets')" data-toggle="modal" data-target="#popup">Tickets for Resigning: {{ ticketsForResigning.length }}</a>
 				<br>
@@ -229,7 +229,10 @@
 						break;
 					case 'Closed' : this.tickets = this.closedTickets
 						break;
+					case 'AllTickets' : this.tickets = this.$store.state.tickets
+						break;
 					case 'EndorsedTickets' : this.tickets = this.ticketsForResigning
+						break;
 					case 'Unregistered' : this.tickets = this.unregisteredTickets
 						break;
 				}
