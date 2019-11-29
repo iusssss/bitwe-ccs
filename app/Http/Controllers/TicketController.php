@@ -24,6 +24,7 @@ class TicketController extends Controller
 
     public function export($filter)
     {
+        logger::createLog('Ticket', 'Exported ticket report', auth()->user()->id);
         // return Ticket::findOrFail(1911080013)->resolved[0]->created_at;
         return Excel::download(new TicketsExport($filter), 'tickets.xlsx');
     }

@@ -170,6 +170,18 @@ Route::middleware('auth:api')->group(function () {
 	// Logs
 	Route::get('logs', 'LogsController@index');
 	Route::post('log', 'LogsController@store');
+	
+	//Exports
+	// Export Tickets
+	Route::get('tickets/export/{filter}', 'TicketController@export');
+	// Export Users
+	Route::get('clients/export/{company_id}', 'ClientsController@export');
+	// Export Users
+	Route::get('users/export', 'UsersController@export');
+	// Export Companies
+	Route::get('companies/export', 'CompaniesController@export');
+	// Export Services
+	Route::get('services/export', 'ServicesController@export');
 });
 
 // reset password
@@ -184,17 +196,6 @@ Route::post('/tempClient', 'TempClientController@store');
 Route::get('/tempClient/{ticketId}', 'TempClientController@show');
 Route::put('/tempClient/{ticketId}', 'TempClientController@update');
 Route::delete('/tempClient/{id}', 'TempClientController@destroy');
-
-// Export Tickets
-Route::get('tickets/export/{filter}', 'TicketController@export');
-// Export Users
-Route::get('clients/export/{company_id}', 'ClientsController@export');
-// Export Users
-Route::get('users/export', 'UsersController@export');
-// Export Companies
-Route::get('companies/export', 'CompaniesController@export');
-// Export Services
-Route::get('services/export', 'ServicesController@export');
 
 Route::post('login', 'AuthController@login');
 Route::post('register', 'AuthController@register');

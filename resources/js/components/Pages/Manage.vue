@@ -6,7 +6,7 @@
                     <div class="card-header">
                         <div class="float-left"><h3 class="text-primary">Accounts</h3></div>
                         <div class="text-right">
-                            <a href="/api/users/export" class="btn btn-primary mr-1">
+                            <a @click="exportData" class="btn btn-primary mr-1">
                                 <i class="fas fa-file-export add"></i>
                                 Export
                             </a>
@@ -139,6 +139,22 @@
             // })
         },
 		methods: {
+            exportData() {
+                axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
+                axios({
+                    url: '/api/users/export',
+                    method: 'GET',
+                    responseType: 'blob',
+                })
+                .then(response => {
+                    const url = window.URL.createObjectURL(new Blob([response.data]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', 'users' + '.xls');
+                    document.body.appendChild(link);
+                    link.click();
+                });
+            },
             deleteService() {
                 this.LoadServices();
             },

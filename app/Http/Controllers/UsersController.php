@@ -22,6 +22,7 @@ class UsersController extends Controller
 
     public function export()
     {
+        logger::createLog('User', 'Exported users data', auth()->user()->id);
         return Excel::download(new UsersExport, 'users.xlsx');
     }
 

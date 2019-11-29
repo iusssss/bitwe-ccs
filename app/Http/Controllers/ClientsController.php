@@ -24,6 +24,7 @@ class ClientsController extends Controller
     public function export($company_id)
     {
         $companyName = Company::findOrFail($company_id)->name;
+        logger::createLog('Client', 'Exported clients data', auth()->user()->id);
         return Excel::download(new ClientsExport($company_id), "clients of ".$companyName.".xlsx");
     }
 

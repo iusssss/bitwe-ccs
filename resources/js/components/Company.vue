@@ -3,7 +3,7 @@
 		<div class="card-header">
             <div class="float-left"><h3 class="text-primary">Companies</h3></div>
             <div class="text-right">
-                <a href="/api/companies/export" class="btn btn-primary mr-1">
+                <a @click="exportData" class="btn btn-primary mr-1">
                     <i class="fas fa-file-export add"></i>
                     Export
                 </a>
@@ -131,6 +131,22 @@
 			this.LoadCompanies();
 		},
 		methods: {
+			exportData() {
+				axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
+				axios({
+		            url: '/api/companies/export',
+		            method: 'GET',
+		            responseType: 'blob',
+				})
+				.then(response => {
+					const url = window.URL.createObjectURL(new Blob([response.data]));
+					const link = document.createElement('a');
+					link.href = url;
+					link.setAttribute('download', 'companies' + '.xls');
+					document.body.appendChild(link);
+					link.click();
+				});
+			},
 			// exportExcel() {
 			// 	axios.get('/api/companies/export')
 			// 	.then(response => {

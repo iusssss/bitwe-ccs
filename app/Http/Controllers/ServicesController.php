@@ -26,6 +26,7 @@ class ServicesController extends Controller
 
     public function export()
     {
+        logger::createLog('Service', 'Exported services data', auth()->user()->id);
         return Excel::download(new ServicesExport, 'services.xlsx');
     }
 

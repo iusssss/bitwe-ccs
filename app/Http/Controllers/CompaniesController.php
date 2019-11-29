@@ -30,6 +30,7 @@ class CompaniesController extends Controller
 
     public function export()
     {
+        logger::createLog('Company', 'Exported companies data', auth()->user()->id);
         return Excel::download(new CompanyExport, 'companies.xlsx');
     }
 

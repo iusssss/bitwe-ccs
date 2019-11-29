@@ -79,7 +79,7 @@
 	            		</table>
 	            	</div>
             		<button class="btn btn-primary" @click="adding = true"><span class="fa fa-plus add"></span> Add Client</button>
-	                <a :href='`/api/clients/export/${company.id}`' class="btn btn-primary mr-1">
+	                <a @click="exportData" class="btn btn-primary text-white mr-1">
 	                    <i class="fas fa-file-export add"></i>
 	                    Export
 	                </a>
@@ -108,6 +108,22 @@
 			}
 		},
 		methods: {
+			exportData() {
+				axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
+				axios({
+		            url: `/api/clients/export/${this.company.id}`,
+		            method: 'GET',
+		            responseType: 'blob',
+				})
+				.then(response => {
+					const url = window.URL.createObjectURL(new Blob([response.data]));
+					const link = document.createElement('a');
+					link.href = url;
+					link.setAttribute('download', 'clients' + '.xls');
+					document.body.appendChild(link);
+					link.click();
+				});
+			},
 			updateClient() {
 				axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
 				axios.put(`/api/client/${this.client.id}`, this.client)
