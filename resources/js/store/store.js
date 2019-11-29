@@ -259,7 +259,6 @@ export const store = new Vuex.Store({
 			return new Promise((resolve, reject) => {
 				axios.put(`/api/systemsetting/${settings.id}`, settings)
 				.then(response => {
-					console.log(response);
 					resolve(response);
 				})
 			})
@@ -746,7 +745,6 @@ export const store = new Vuex.Store({
 			axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token;
 			axios.post('/api/log', log)
 			.then(response => {
-				console.log(response);
 			})
 		}
 	}

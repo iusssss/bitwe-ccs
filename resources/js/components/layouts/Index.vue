@@ -6,7 +6,7 @@
 </template>
 
 <script>
-	import navbar from './Navbar.vue'
+	import Navbar from './Navbar.vue'
 	export default {
 		data() {
 			return {
@@ -14,7 +14,7 @@
 			}
 		},
 		components: {
-			navbar
+			Navbar,
 		},
         created() {
 			this.$store.dispatch('retrievePrivilege').then(() => { this.created = true; });

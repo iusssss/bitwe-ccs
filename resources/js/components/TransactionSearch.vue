@@ -90,7 +90,7 @@
             }
         },
         components: {
-            Autocomplete
+            Autocomplete,
         },
         computed: {
             clientsFullname() {

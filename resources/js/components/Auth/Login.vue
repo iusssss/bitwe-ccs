@@ -53,11 +53,14 @@
 				</div>
 			</div>
 		</div>
+		<pageFooter />
 	</div>
 </template>
 
 <script>
+    import PageFooter from '../layouts/Footer.vue';
 	export default {
+		components: { PageFooter },
 		data() {
 			return {
 				username: '',

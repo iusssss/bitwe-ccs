@@ -4,8 +4,6 @@ window.Vue = require('vue');
 // Vue.component('home', require('./Home.vue').default);
 // Vue.component('chart', require('./Chart.vue').default);
 // Vue.component('manage', require('./Manage.vue').default);
-Vue.component('Test', require('./Test.vue').default);
-Vue.component('worker', require('./Worker.vue').default);
 Vue.component('ServerErrors', require('./components/ServerErrors.vue').default);
 Vue.component('ButtonLoading', require('./components/ButtonLoading.vue').default);
 Vue.component('pagination', require('laravel-vue-pagination'));
