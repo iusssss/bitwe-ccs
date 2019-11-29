@@ -38,11 +38,11 @@ class CloseTicket extends Command
      */
     public function handle()
     {
-        $yesterday = date("Y-m-d", strtotime('-2 days') );
+        $closeDate = date("Y-m-d", strtotime('-7 days') );
         $updates = [];
         $tickets = Ticket::with('updates')->get();
         foreach ($tickets as $i => $ticket) {
-            if ($ticket->updates[0]->created_at->format('Y-m-d') <= $yesterday)
+            if ($ticket->updates[0]->created_at->format('Y-m-d') <= $closeDate)
                 $updates[$i] = $ticket->updates[0];
         }
         foreach ($updates as $update) {
