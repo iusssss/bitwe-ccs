@@ -120,8 +120,8 @@
 				.catch(error => {
 					// this.$noty.error("Incorrect e-mail or password");
 					console.log(error);
+					this.serverErrors = [];
 					this.serverErrors.push([error.response.data]);
-
 					this.password = '';
 					this.logging = false;
 				})

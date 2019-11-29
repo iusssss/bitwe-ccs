@@ -77,6 +77,16 @@ class UsersController extends Controller
 
     public function changePassword(Request $request, $id) {
         $user = User::findOrFail($id);
+        $messages = [   
+            'password.regex' => "Password must include both lower and upper case character, at least one number and symbol, and at least be 8 characters long"
+        ];
+        $validated = $request->validate([
+            'password' => [
+                'required', 
+                'regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[.,#?!@$%^&*-]).{6,}$/', 
+                'min:8', 'max:25'
+            ]
+        ], $messages);
         $user->password = Hash::make($request->input('password'));
 
         if ($user->save())
