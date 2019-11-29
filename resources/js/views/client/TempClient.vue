@@ -1,7 +1,7 @@
 <template>
 	<div>
         <div class="modal-header">
-            <h3 class="modal-title text-primary">{{ saving ? 'Save Client' : 'Add a temporary Client' }}</h3>
+            <h3 class="modal-title text-primary">{{ saving ? 'Save Client' : 'Register Client' }}</h3>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -13,11 +13,11 @@
         			<hr class="my-2">
                 	<autocomplete :initialText="initialText" @input="getClientText" :items="clientsName" :placeholder="'Client'" />
                 	<button class="btn btn-primary my-2" @click="assignToClient">Assign</button>
+        			<hr class="my-2">
         		</div>
-        		<h5 class="text-primary mt-3">Register client</h5>
-        		<hr class="my-2">
+        		<!-- <h5 class="text-primary mt-3">Register client</h5> -->
 	            <div class="form-group">
-                	<autocomplete :initialText="client.company" @input="getCompanyText" :items="companiesName" :placeholder="'Company'" />
+                	<autocomplete :initialText="initialText" @input="getCompanyText" :items="companiesName" :placeholder="'Company'" />
 	            </div>
 	            <div class="form-group">
 	            	<input type="text" class="form-control" placeholder="Name" v-model="client.fullname">
@@ -56,14 +56,16 @@
 				saving: false,
 				existingClient: '',
 				initialText: '',
+				companyText: '',
 			}
 		},
 		mounted() {
 			const tempClient = this.$store.state.tempClient;
 			this.$store.dispatch('retrieveCompanies');
-			this.$store.dispatch('retrieveClients');
+			// this.$store.dispatch('retrieveClients');
 			if (tempClient) {
 				this.client = tempClient;
+				this.initialText = this.client.company.name;
 			}
 		},
 		methods: {
@@ -71,30 +73,38 @@
 				this.existingClient = text;
 			},
 			getCompanyText(text) {
-				this.client.company = text;
+				this.companyText = text;
 			},
 			setTempClient() {
 				if (!this.saving) {
-					this.$store.commit('setTempClient', this.client);
-					$('#clientPopup').modal('hide');
-				}
-				else {
-					const company = this.$store.state.companies.find(x => x.name == this.client.company);
-					if (!company) {
+					this.client.company = this.$store.state.companies.find(x => x.name == this.companyText);
+					if (!this.client.company) {
 						this.$noty.error("Company doesn't exist")
 						return
 					}
-					this.saveClient(company)
-					.then((response) => {
-						this.deleteTempClient();
-						this.$store.dispatch('updateTicket', { 
-							ticketId: this.tempClient.ticket_id,
-							client_id: response.id 
-						})
-						this.$emit('clientSaved', this.tempClient);
-					})
+					if (this.client.fullname.length < 1) {
+						this.$noty.error("Client name is required")
+						return
+					}
+					this.$store.commit('setTempClient', this.client);
 					$('#clientPopup').modal('hide');
+					return
 				}
+				const company = this.$store.state.companies.find(x => x.name == this.companyText);
+				if (!company) {
+					this.$noty.error("Company doesn't exist")
+					return
+				}
+				this.saveClient(company)
+				.then((response) => {
+					this.deleteTempClient();
+					this.$store.dispatch('updateTicket', { 
+						ticketId: this.tempClient.ticket_id,
+						client_id: response.id 
+					})
+					this.$emit('clientSaved', this.tempClient);
+				})
+				$('#clientPopup').modal('hide');
 			},
 			assignToClient() {
 				const client = this.$store.state.clients.find(x => x.fullname == this.existingClient);

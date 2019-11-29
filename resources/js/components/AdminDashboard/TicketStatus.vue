@@ -53,7 +53,7 @@
 				<br>
 				<a class="text-info" href="" @click="setTickets('EndorsedTickets')" data-toggle="modal" data-target="#popup">Tickets for Resigning: {{ ticketsForResigning.length }}</a>
 				<br>
-				<a class="text-danger" href="" @click="setTickets('Unregistered')" data-toggle="modal" data-target="#popup">Unregistered Tickets: {{ unregisteredTickets.length }}</a>
+				<!-- <a class="text-danger" href="" @click="setTickets('Unregistered')" data-toggle="modal" data-target="#popup">Unregistered Tickets: {{ unregisteredTickets.length }}</a> -->
 			</h5>
 		</div>
 		<div class="modal fade" id="popup" tabindex="-1" role="dialog" aria-labelledby="popup" aria-hidden="true">

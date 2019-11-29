@@ -288,6 +288,24 @@ export const store = new Vuex.Store({
 				})
 			})
 		},
+		createClient(context) {
+			return new Promise((resolve, reject) => {
+				const client = context.state.tempClient;
+				axios.post('/api/client', {
+					company_id: client.company.id,
+					fullname: client.fullname,
+					email: client.email,
+					phone_number: client.contactNumber,
+				})
+				.then((response) => {
+					resolve(response);
+				})
+				.catch(error => {
+					reject(error);
+					console.log(error);
+				})
+			})
+		},
 		createTempClient(context, ticket_id) {
 			return new Promise((resolve, reject) => {
 				const tempClient = context.state.tempClient;

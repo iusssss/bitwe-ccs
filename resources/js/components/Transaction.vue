@@ -144,6 +144,7 @@
                     service_id: null,
                     type: 'Request'
                 },
+                client: {},
                 currentStatus: 2,
                 types: ['Request', 'Incident'],
                 lastTicketNo: null,
@@ -158,7 +159,6 @@
         props: [
             'services',
             'subjects',
-            'client',
             'ticketStatuses'
         ],
         methods: {
@@ -196,7 +196,7 @@
                     return;
                 }
                 if (!this.$store.getters.clientSelected && !this.$store.getters.tempClientFilled) {
-                    this.$noty.error("No selected client. If client is not registered, please set a temporary client");
+                    this.$noty.error("No selected client. If client is not registered, click the icon beside ticket input and register the client");
                     return;
                 }
                 this.creatingTicket = true;
@@ -220,8 +220,6 @@
                             this.creatingTicket = false;
                             return;
                         });
-                        if (!this.$store.getters.clientSelected)
-                            this.$store.dispatch('createTempClient', this.ticket.id);
                     } else {
                         if (this.ticket.agent) {
                             if (this.ticket.agent.id != this.$store.state.user.id && this.currentStatus != 1) {
@@ -243,13 +241,35 @@
             },
             createNewTicket() {
                 return new Promise((resolve, reject) => {
+                    if (!this.$store.getters.clientSelected) {
+                        this.$store.dispatch('createClient')
+                        .then(response => {
+                            this.client = response.data.data;
+                            this.$store.dispatch('createTicket', {
+                                ticketId: this.ticket.id,
+                                type: this.ticket.type,
+                                startTime: this.$store.state.ticketStartTime,
+                                touchPoint: 'Phone',
+                                issue: this.ticket.issue,
+                                client_id: (this.$store.getters.clientSelected) ? this.$store.state.selected_client.id : this.client.id,
+                                service_id: this.ticket.service_id,
+                            })
+                            .then(response => {
+                                resolve(response);
+                            })
+                            .catch(error => {
+                                reject(error);
+                            })
+                        })
+                        return;
+                    }
                     this.$store.dispatch('createTicket', {
                         ticketId: this.ticket.id,
                         type: this.ticket.type,
                         startTime: this.$store.state.ticketStartTime,
                         touchPoint: 'Phone',
                         issue: this.ticket.issue,
-                        client_id: (this.$store.getters.clientSelected) ? this.$store.state.selected_client.id : null,
+                        client_id: (this.$store.getters.clientSelected) ? this.$store.state.selected_client.id : this.client.id,
                         service_id: this.ticket.service_id,
                     })
                     .then(response => {
