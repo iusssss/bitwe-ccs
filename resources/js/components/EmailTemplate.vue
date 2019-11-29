@@ -4,9 +4,9 @@
             <table class="table table-responsive" style="overflow-x: scroll;">
 				<thead>
 					<tr>
-						<th>Status</th>
-						<th>Subject</th>
-						<th>Body</th>
+						<th class="w-25">Status</th>
+						<th class="w-25">Subject</th>
+						<th class="w-50">Body</th>
 						<th></th>
 					</tr>
 				</thead>

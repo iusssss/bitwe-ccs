@@ -177,6 +177,12 @@
 </script>
 
 <style>
+th, td {
+    word-break: break-all;
+}
+.break-text {
+    word-break: break-all;
+}
 .btn-primary {
     background-color: rgba(22,15,64,.9) !important;
     border-color: rgba(22,15,64,.9) !important;

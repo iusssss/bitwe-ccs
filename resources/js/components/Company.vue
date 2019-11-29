@@ -20,82 +20,80 @@
 					<autocomplete @input="getCompanyText" :items="companiesName" :placeholder="'Search Company'" />
 				</div>
                 <serverErrors :serverErrors="serverErrors" />
-				<div class="table-responsive">
-					<table class="table">
-						<thead>
-							<tr>
-								<th>Name</th>
-								<th>Address</th>
-								<th>E-mail</th>
-								<th>Contact Number</th>
-								<th></th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr v-if="adding">
-								<td>
+				<table class="table">
+					<thead>
+						<tr>
+							<th class="w-25">Name</th>
+							<th class="w-25">Address</th>
+							<th class="w-25">E-mail</th>
+							<th class="w-25">Contact Number</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-if="adding">
+							<td>
+								<input class="form-control" v-model="company.name" type="" name="" placeholder="Name">
+							</td>
+							<td>
+								<input class="form-control" v-model="company.address" type="" name="" placeholder="Address">
+							</td>
+							<td>
+								<input class="form-control" v-model="company.email" type="" name="" placeholder="Email">
+							</td>
+							<td>
+								<input class="form-control" v-model="company.contact_no" type="" name="" placeholder="Contact Number">
+							</td>
+							<td>
+								<div class="d-flex justify-content-end">
+									<button class="btn btn-primary mr-1" @click="createCompany">Create</button>
+									<button class="close ml-3" @click="adding = false">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>	
+							</td>
+						</tr>
+						<tr v-for="(_company, i) in companiesData">
+							<td>
+								<div v-if="editing && company.id == _company.id">
 									<input class="form-control" v-model="company.name" type="" name="" placeholder="Name">
-								</td>
-								<td>
+								</div>
+								<div v-else>{{ _company.name }}</div>
+							</td>
+							<td>
+								<div v-if="editing && company.id == _company.id">
 									<input class="form-control" v-model="company.address" type="" name="" placeholder="Address">
-								</td>
-								<td>
+								</div>
+								<div v-else>{{ _company.address }}</div>
+							</td>
+							<td>
+								<div v-if="editing && company.id == _company.id">
 									<input class="form-control" v-model="company.email" type="" name="" placeholder="Email">
-								</td>
-								<td>
+								</div>
+								<div v-else>{{ _company.email }}</div>
+							</td>
+							<td>
+								<div v-if="editing && company.id == _company.id">
 									<input class="form-control" v-model="company.contact_no" type="" name="" placeholder="Contact Number">
-								</td>
-								<td>
-									<div class="d-flex justify-content-end">
-										<button class="btn btn-primary mr-1" @click="createCompany">Create</button>
-										<button class="close ml-3" @click="adding = false">
-											<span aria-hidden="true">&times;</span>
-										</button>
-									</div>	
-								</td>
-							</tr>
-							<tr v-for="(_company, i) in companiesData">
-								<td>
-									<div v-if="editing && company.id == _company.id">
-										<input class="form-control" v-model="company.name" type="" name="" placeholder="Name">
-									</div>
-									<div v-else>{{ _company.name }}</div>
-								</td>
-								<td>
-									<div v-if="editing && company.id == _company.id">
-										<input class="form-control" v-model="company.address" type="" name="" placeholder="Address">
-									</div>
-									<div v-else>{{ _company.address }}</div>
-								</td>
-								<td>
-									<div v-if="editing && company.id == _company.id">
-										<input class="form-control" v-model="company.email" type="" name="" placeholder="Email">
-									</div>
-									<div v-else>{{ _company.email }}</div>
-								</td>
-								<td>
-									<div v-if="editing && company.id == _company.id">
-										<input class="form-control" v-model="company.contact_no" type="" name="" placeholder="Contact Number">
-									</div>
-									<div v-else>{{ _company.contact_no }}</div>
-								</td>
-								<td>
-									<div v-if="editing && company.id == _company.id" class="d-flex justify-content-end">
-										<button class="btn btn-primary mr-1" @click="updateCompany">Save</button>
-										<button class="close ml-3" @click="editing = false">
-											<span aria-hidden="true">&times;</span>
-										</button>
-									</div>
-									<div v-else class="d-flex justify-content-end">
-										<button class="btn btn-primary mr-1" title="View Clients" data-toggle="modal" data-target="#clientPopup" @click="getCompany(_company)"><i class="fa fa-users"></i></button>
-										<button class="btn btn-primary mr-1" @click="editCompany(_company)"><i class="fa fa-edit"></i></button>
-										<button class="btn btn-primary" @click="deleteCompany(_company, i)"><i class="fa fa-trash"></i></button>
-									</div>	
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
+								</div>
+								<div v-else>{{ _company.contact_no }}</div>
+							</td>
+							<td>
+								<div v-if="editing && company.id == _company.id" class="d-flex justify-content-end">
+									<button class="btn btn-primary mr-1" @click="updateCompany">Save</button>
+									<button class="close ml-3" @click="editing = false">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div v-else class="d-flex justify-content-end">
+									<button class="btn btn-primary mr-1" title="View Clients" data-toggle="modal" data-target="#clientPopup" @click="getCompany(_company)"><i class="fa fa-users"></i></button>
+									<button class="btn btn-primary mr-1" @click="editCompany(_company)"><i class="fa fa-edit"></i></button>
+									<button class="btn btn-primary" @click="deleteCompany(_company, i)"><i class="fa fa-trash"></i></button>
+								</div>	
+							</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 		</div>
         <div class="card-footer d-flex justify-content-center">

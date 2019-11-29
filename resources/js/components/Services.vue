@@ -19,8 +19,8 @@
 				<table class="table">
 					<thead>
 						<tr>
-							<th>Name</th>
-							<th>Description</th>
+							<th class="w-25">Name</th>
+							<th class="w-50">Description</th>
 							<th></th>
 						</tr>
 					</thead>

@@ -3,7 +3,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
             	<div class="modal-header">
-        			<h3 class="modal-title text-primary">Clients - {{ company.name }}</h3>
+        			<h3 class="modal-title text-primary">Clients - <span class="break-text">{{ company.name }}</span></h3>
 		            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 		                <span aria-hidden="true">&times;</span>
 		            </button>
@@ -17,9 +17,9 @@
 	            		<table class="table">
 	            			<thead>
 								<tr>
-									<th>Full Name</th>
-									<th>E-mail</th>
-									<th>Contact Number</th>
+									<th class="w-25">Full Name</th>
+									<th class="w-25">E-mail</th>
+									<th class="w-25">Contact Number</th>
 									<th></th>
 								</tr>
 							</thead>
