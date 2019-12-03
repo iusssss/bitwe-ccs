@@ -111,4 +111,7 @@
 	}
 </script>
 <style scoped>
+	th, td {
+	    word-break: keep-all !important;
+	}
 </style>

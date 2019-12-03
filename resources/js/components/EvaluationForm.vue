@@ -34,7 +34,7 @@
 	    				</td>
 	    				<td>
 	    					<!-- score.confidence['question-'+criteria.id] -->
-			    			<input :disabled="!criteria.answer" v-model="criteria.confidence" style="width: 130px;" class="form-control" type="" name="" placeholder="confidence / 10">
+			    			<input :disabled="!criteria.answer" v-model="criteria.confidence" style="width: 130px;" class="form-control" type="" name="" placeholder="confidence / 10" @keypress="isNumber($event)">
 			    		</td>
 	    			</tr>
 	    		</tbody>
@@ -70,6 +70,15 @@
 		mounted() {
 		},
 		methods: {
+			isNumber(value) {
+				let evt = (evt) ? evt : window.event;
+				var charCode = (evt.which) ? evt.which : evt.keyCode;
+				if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
+					evt.preventDefault();;
+				} else {
+					return true;
+				}
+			},
 			deleteRecord() {
 				axios.delete(`/api/callRecord/${this.recordSid}`)
 				.then(response => {
@@ -83,6 +92,17 @@
 				})
 			},
 			submit() {
+				for (let i = 0; i < this.criterias.length; i++) {
+					for (let j = 0; j < this.criterias[i].questions.length; j++) {
+						let confidence = parseInt(this.criterias[i].questions[j].confidence);
+						if (isNaN(confidence)) {
+							continue;
+						} else if (confidence > 10) {
+							this.$noty.error("Confidence field should be less than 10");
+							return;
+						}
+					}
+				}
 				if (confirm('Are you sure?')) {
 					this.loading = true;
 					this.initializeProps();
