@@ -670,7 +670,7 @@ export const store = new Vuex.Store({
 						const user = response.data;
 						delete user.password;
 						delete user.privilege;
-						user.worker = null;
+						user.worker = { activityName: "loading" };
 						localStorage.setItem('user', JSON.stringify(user));
 						context.commit('retrieveUser', user);
 						resolve(user);
