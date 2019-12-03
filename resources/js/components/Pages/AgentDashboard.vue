@@ -64,8 +64,27 @@
 		},
 		mounted() {
 			this.$store.dispatch('retrieveTicketsThisYearByUser');
+			this.$store.dispatch('fetchActivities');
+			this.retrieveTwilioToken();
 		},
 		methods: {
+			retrieveTwilioToken() {
+                this.$store.dispatch('retrieveTwilioWorkerToken')
+                .then((response) => {
+                    this.$store.dispatch('retrieveTwilioClient', this.$store.state.twilioWorkerToken)
+                    .then(response => {
+                        this.registerTaskRouterCallbacks();
+                    })
+                    .catch(error => {
+                        //this.retrieveTwilioToken();
+                    })
+                })
+            },
+			registerTaskRouterCallbacks() {
+                this.$store.dispatch('registerTaskRouterCallbacks');
+                if (this.$store.state.callFrom)
+                    this.searchPhone(this.$store.state.callFrom);
+            },
 		},
 		computed: {
 		}

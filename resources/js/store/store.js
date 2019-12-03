@@ -65,7 +65,7 @@ export const store = new Vuex.Store({
 			return state.privilege == 'agent' && state.token != null
 		},
 		workerAvailable(state) {
-			return state.twilio.worker.activityName == 'Available';
+			return state.user.worker.activityName == 'Available';
 		},
 		loggedIn(state) {
 			return state.token != null
@@ -88,6 +88,11 @@ export const store = new Vuex.Store({
 		}
 	},
 	mutations: {
+		updateUserActivity(state, user) {
+			let u = state.users.find(x => x.name == user.user.name);
+			let i = state.users.indexOf(u);
+			state.users[i].worker.activityName = user.user.worker.activityName;
+		},
 		setClientModal(state, isClientModal) {
 			state.isClientModal = isClientModal;
 		},
@@ -96,7 +101,6 @@ export const store = new Vuex.Store({
 		},
 		destroyToken(state) {
 			state.token = null;
-			state.user = null;
 		},
 		retrieveTickets(state, tickets) {
 			state.tickets = tickets;
@@ -107,6 +111,8 @@ export const store = new Vuex.Store({
 		retrieveUser(state, user) {
 			delete user.password;
 			state.user = user;
+			if (!state.user.worker)
+				state.user.worker = { activityName: "Loading" };
 		},
 		retrieveClients(state, clients) {
 			state.clients = clients;
@@ -141,6 +147,9 @@ export const store = new Vuex.Store({
 		getActivitySids(state, { sid, i }) {
 			state.activitySids[state.activityList[i].friendlyName] = sid;
         },
+        setActivitySids(state, sids) {
+			state.activitySids = sids;
+        },
         acceptReservation(state) {
         	state.twilio.reservation.accept();
 			// state.twilio.reservation.dequeue(
@@ -164,22 +173,21 @@ export const store = new Vuex.Store({
         },
         goAvailable(state, activity) {
         	// if (state.settings[0].state)
-        	state.twilio.worker.update("ActivitySid", state.activitySids.Available);
+        	state.user.worker.update("ActivitySid", state.activitySids.Available);
             // else 
             // 	state.twilio.worker.activityName = activity;
         },
         goOffline(state) {
-            state.twilio.worker.update("ActivitySid", state.activitySids.Offline);
+            state.user.worker.update("ActivitySid", state.activitySids.Offline);
         },
         getCaller(state, callFrom) {
         	state.callFrom = callFrom;
         },
         getWorker(state, worker) {
-        	if (worker)
-        		state.twilio.worker = worker;
-        	else {
-        		state.twilio.worker = {};
-        		state.twilio.worker.activityName = null;
+        	if (worker) {
+        		state.user.worker = {};
+        		state.user.worker = worker;
+				localStorage.setItem('user', JSON.stringify(state.user));
         	}
         },
         startTime(state, watch) {
@@ -527,13 +535,18 @@ export const store = new Vuex.Store({
 			})
 		},
 		registerTaskRouterCallbacks(context) {
+			let ref = context;
             context.state.twilioClient.on('ready', function(worker) {
                 const _worker = worker;
                 context.commit('getWorker', _worker);
+                if (worker.activityName == "Offline") {
+                	ref.commit("goAvailable");
+                }
             })
             context.state.twilioClient.on('activity.update', function(worker) {
                 const _worker = worker;
                 context.commit('getWorker', _worker);
+                axios.post("/api/changeActivity", {user: context.state.user})
             })
             context.state.twilioClient.on('reservation.created', function(reservation) {
                 const _reservation = reservation;
@@ -554,14 +567,23 @@ export const store = new Vuex.Store({
 			context.commit('acceptReservation');
 		},
 		fetchActivities(context) {
-			context.state.twilioClient.activities.fetch(function(error, activityList) {
-                const _activityList = activityList.data;
-                context.commit('fetchActivities', _activityList);
-                for (var i = 0; i < _activityList.length; i++) {
-                	const sid = _activityList[i].sid;
-                	context.commit('getActivitySids', { sid, i });
-                }
-            })
+			if (!localStorage.getItem('activitySids')) {
+				context.state.twilioClient.activities.fetch(function(error, activityList) {
+	                const _activityList = activityList.data;
+					localStorage.setItem('activityList', JSON.stringify(_activityList));
+	                context.commit('fetchActivities', _activityList);
+	                for (var i = 0; i < _activityList.length; i++) {
+	                	const sid = _activityList[i].sid;
+	                	context.commit('getActivitySids', { sid, i });
+	                }
+					localStorage.setItem('activitySids', JSON.stringify(context.state.activitySids));
+	            })
+			} else {
+				const activityList = localStorage.getItem('activityList');
+				const activitySids = localStorage.getItem('activitySids');
+                context.commit('fetchActivities', JSON.parse(activityList));
+            	context.commit('setActivitySids', JSON.parse(activitySids));
+			}
 		},
 		fetchReservation(context) {
         	let params = {"ReservationStatus":"pending"};
@@ -635,21 +657,27 @@ export const store = new Vuex.Store({
 			})
 		},
 		retrieveUser(context) {
-			axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token;
-			return new Promise((resolve, reject) => {
-				axios.get('api/user')
-				.then(response => {
-					const user = response.data;
-					delete user.password;
-					delete user.privilege;
-					localStorage.setItem('user', JSON.stringify(user));
-					context.commit('retrieveUser', user);
-					resolve(user);
+			if (!localStorage.getItem('user')) {
+				axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token;
+				return new Promise((resolve, reject) => {
+					axios.get('api/user')
+					.then(response => {
+						const user = response.data;
+						delete user.password;
+						delete user.privilege;
+						user.worker = null;
+						localStorage.setItem('user', JSON.stringify(user));
+						context.commit('retrieveUser', user);
+						resolve(user);
+					})
+					.catch(error => {
+						reject(error);
+					})
 				})
-				.catch(error => {
-					reject(error);
-				})
-			})
+			} else {
+				let user = JSON.parse(localStorage.getItem('user'));
+				context.commit('retrieveUser', user);
+			}
 		},
 		retrieveTickets(context) {
 			axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token;
@@ -734,8 +762,8 @@ export const store = new Vuex.Store({
 						localStorage.removeItem('user');
 						context.commit('destroyToken');
 						context.commit('retrievePrivilege', '');
-                		context.commit('getWorker', null);
-						Echo.leave('contact-center');
+						Echo.leave('ticket-channel');
+						Echo.leave('user-channel');
 						resolve(response);
 					})
 					.catch(error => {

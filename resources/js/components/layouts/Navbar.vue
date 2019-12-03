@@ -63,6 +63,8 @@
 				.then(response => {
 					this.$router.push('/');
 					this.$store.commit('goOffline');
+            		this.$store.commit('getWorker', null);
+            		this.$store.commit('retrieveUser', null);
 				})
 				.catch(error => {
 

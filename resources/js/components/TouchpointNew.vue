@@ -26,7 +26,7 @@
 			return {
 				timeNow: moment().format('MMMM Do YYYY, h:mm:ss a'),
 				ringtone: null,
-				mActivity: 'Reserved'
+				mActivity: 'Loading'
 			}
 		},
 		components: {statusBadge},
@@ -67,12 +67,14 @@
 			// 	return moment().hour(this.$store.state.stopwatch.hour).minute(this.$store.state.stopwatch.minute).second(this.$store.state.stopwatch.second).format('HH:mm:ss');
 			// },
 			available() {
-				return this.$store.state.twilio.worker.activityName == 'Available';
+				if (this.$store.state.user.worker)
+					return this.$store.state.user.worker.activityName == 'Available';
 			},
 			activity() {
-				if (this.$store.getters.voipAllowed)
-					return this.$store.state.twilio.worker.activityName;
-				return this.mActivity;
+				if (this.$store.getters.voipAllowed && this.$store.state.user.worker)
+					return this.$store.state.user.worker.activityName;
+				else
+					return this.mActivity;
 			}
 		},
 		watch: {

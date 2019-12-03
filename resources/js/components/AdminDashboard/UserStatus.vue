@@ -43,6 +43,11 @@
 			}
 		},
 		mounted() {
+			Echo.channel('user-channel')
+	        .listen('UserActivityChanged', (user) => {
+	            this.$store.commit("updateUserActivity", user);
+	        })
+
 			this.loading = true;
 			this.$store.dispatch('retrieveUsers');
 			this.$store.dispatch('retrieveTwilioToken')

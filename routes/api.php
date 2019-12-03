@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use App\Events\TicketCreated;
 use App\Events\TicketUpdateCreated;
+use App\Events\UserActivityChanged;
 
 /*
 |--------------------------------------------------------------------------
@@ -275,4 +276,10 @@ Route::post('/customer-satisfaction', 'CustomerSatisfactionsController@store');
 Route::get('/callRecords', 'CallRecordsController@index');
 Route::get('/callRecord/{recordSid}', 'CallRecordsController@getRecord');
 Route::delete('/callRecord/{recordSid}', 'CallRecordsController@deleteRecord');
+
+Route::post('/changeActivity', 'UsersController@changeActivity');
+// Route::get('/changeActivity', function() {
+// 	event(new UserActivityChanged("test"));
+// 	return 'fired';
+// });
 

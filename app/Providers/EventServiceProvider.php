@@ -21,6 +21,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\TicketUpdateCreated' => [
             'App\Listeners\TicketUpdateCreatedListener',
         ],
+        'App\Events\UserActivityChanged' => [
+            'App\Listeners\UserActivityChangedListener',
+        ],
     ];
 
     /**

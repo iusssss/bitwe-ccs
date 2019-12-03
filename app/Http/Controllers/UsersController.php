@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserActivityChanged;
 use App\Exports\UsersExport;
 use App\Http\Resources\User as UserResource;
 use App\User;
@@ -24,6 +25,11 @@ class UsersController extends Controller
     {
         logger::createLog('User', 'Exported users data', auth()->user()->id);
         return Excel::download(new UsersExport, 'users.xlsx');
+    }
+
+    public function changeActivity(Request $request) {
+        $user = $request->input('user');
+        return event(new UserActivityChanged($user));
     }
 
     public function all() {

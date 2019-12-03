@@ -92,6 +92,8 @@
 		},
         mounted() {
             this.retrieveTwilioToken();
+            this.$store.dispatch('retrievePrivilege').then(() => { this.created = true; });
+            this.$store.dispatch('retrieveSettings');
             // this.onTicketCreated();
         },
 		methods: {
@@ -149,7 +151,7 @@
                         this.registerTaskRouterCallbacks();
                     })
                     .catch(error => {
-                        this.retrieveTwilioToken();
+                        //this.retrieveTwilioToken();
                     })
                 })
             },
