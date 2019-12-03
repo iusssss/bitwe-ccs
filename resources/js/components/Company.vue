@@ -104,7 +104,7 @@
         <div class="card-footer d-flex justify-content-center">
             <pagination :show-disabled="true" :data="companies" @pagination-change-page="getCompanyResults" :limit="10"></pagination>
         </div>
-        <clients :isSearchList="isSearchList" :clients="clients" :company="company" @addClient="addClient" @deleteClient="deleteClient" />
+        <clients :isSearchList="isSearchList" :clients="clients" :company="company" @addClient="addClient" @deleteClient="deleteClient" @uploadFileClient="uploadFileClient" />
 	</div>
 </template>
 <script>
@@ -223,6 +223,9 @@
 						this.$noty.success(`${company.name} successfully deleted`);
 					})
 				}
+			},
+			uploadFileClient(file) {
+				this.$emit('uploadFile', file);
 			},
 			uploadFileCompany() {
 				if (this.file == null) {
