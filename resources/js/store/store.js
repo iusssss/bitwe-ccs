@@ -189,6 +189,9 @@ export const store = new Vuex.Store({
         		state.user.worker = worker;
 				localStorage.setItem('user', JSON.stringify(state.user));
         	}
+        	if (!state.token) {
+        		localStorage.removeItem('user');
+        	}
         },
         startTime(state, watch) {
         	state.stopwatch = watch;
@@ -539,8 +542,10 @@ export const store = new Vuex.Store({
             context.state.twilioClient.on('ready', function(worker) {
                 const _worker = worker;
                 context.commit('getWorker', _worker);
-                if (worker.activityName == "Offline") {
-                	ref.commit("goAvailable");
+                if (ref.state.user.worker) {
+	                if (worker.activityName == "Offline") {
+	                	ref.commit("goAvailable");
+	                }
                 }
             })
             context.state.twilioClient.on('activity.update', function(worker) {
