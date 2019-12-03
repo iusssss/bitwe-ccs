@@ -23,7 +23,7 @@
 					<!-- <li :class="currentPage.includes('chart') ? 'active' : 'nav-item'">
 						<router-link class="nav-link" to="/chart">Chart</router-link>
 					</li> -->
-					<li v-if="($store.getters.isAdmin || $store.getters.isSystemAdmin) && $store.getters.recordingAllowed" :class="currentPage.includes('evaluate') ? 'active' : 'nav-item'">
+					<li v-if="($store.getters.isAdmin || $store.getters.isSystemAdmin)" :class="currentPage.includes('evaluate') ? 'active' : 'nav-item'">
 						<router-link class="nav-link" to="/evaluate">Evaluate</router-link>
 					</li>
 				</ul>
