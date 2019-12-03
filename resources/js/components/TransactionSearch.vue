@@ -17,6 +17,11 @@
                     <autocomplete @input="getCompanyText" :items="companyName" :placeholder="'Company'" />
                     <!-- <autocomplete v-on:input="getSearchText" :items="clientsFullname" :placeholder="'Company'" /> -->
                 </div>
+                <div class="col-md-4">
+                    <router-link class="btn btn-primary showprofile" to="/home/companies" data-toggle="modal" data-target="#companyModal">
+                        List Companies
+                    </router-link>
+                </div>
             </div>
             <div class="form-group row">
                 <div class="col-md-8">
@@ -28,10 +33,18 @@
                 <button @click="search" class="btn btn-primary col-md-2 ml-3">Search</button>
             </div>
 		</div>
+        <div class="modal fade" id="companyModal" tabindex="-1" role="dialog" aria-labelledby="companyModal" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <router-view :isSearchList="true"></router-view>
+                </div>
+            </div>
+        </div>
 	</div>
 </template>
 
 <script>
+    import Company from './Company.vue';
     import Autocomplete from './Autocomplete.vue';
 	export default {
 		data() {
@@ -53,6 +66,15 @@
             'subjects',
             'companies'
         ],
+        mounted() {
+            var ref = this;
+            $("#companyModal").on("hidden.bs.modal", function () {
+                if (!ref.$store.state.isClientModal) {
+                    ref.$router.go(-1);
+                }
+                ref.$store.commit("setClientModal", false);
+            });
+        },
         methods: {
             search() {
                 if (this.filter.ticket) {
@@ -91,6 +113,7 @@
         },
         components: {
             Autocomplete,
+            Company,
         },
         computed: {
             clientsFullname() {

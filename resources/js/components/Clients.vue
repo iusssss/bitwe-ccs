@@ -1,5 +1,5 @@
 <template>
-	<div class="modal fade" id="clientPopup" tabindex="-1" role="dialog" aria-labelledby="popup" aria-hidden="true">
+	<div class="modal fade" id="clientPopup" tabindex="-1" role="dialog" aria-labelledby="clientPopup" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
             	<div class="modal-header">
@@ -9,12 +9,12 @@
 		            </button>
             	</div>
             	<div class="modal-body">
-					<div class="d-flex justify-content-center">
+					<div v-if="!isSearchList" class="d-flex justify-content-center">
 						<fileUpload :name="'client'" @uploadFile="uploadFileClient" @fileChange="handleFileUploadClient" />
 					</div>
                 	<serverErrors :serverErrors="serverErrors" />
 					<div class="table-responsive">
-	            		<table class="table">
+	            		<table class="table" :class="{'table-hover': isSearchList}">
 	            			<thead>
 								<tr>
 									<th class="w-25">Full Name</th>
@@ -43,7 +43,7 @@
 										</div>
 									</td>
 								</tr>
-								<tr v-for="(_client, i) in clients">
+								<tr v-for="(_client, i) in clients" @click="getClient(_client)">
 									<td>
 										<div v-if="editing && client.id == _client.id">
 											<input type="text" class="form-control" placeholder="Name" v-model="client.fullname">
@@ -69,7 +69,7 @@
 												<span aria-hidden="true">&times;</span>
 											</button>
 										</div>	
-										<div v-else class="d-flex justify-content-end">
+										<div v-if="!editing && !isSearchList" class="d-flex justify-content-end">
 											<button class="btn btn-primary mr-1" @click="editClient(_client)"><i class="fa fa-edit"></i></button>
 											<button class="btn btn-primary" @click="deleteClient(_client, i)"><i class="fa fa-trash"></i></button>
 										</div>	
@@ -78,15 +78,12 @@
 							</tbody>
 	            		</table>
 	            	</div>
-            		<button class="btn btn-primary" @click="adding = true"><span class="fa fa-plus add"></span> Add Client</button>
-	                <a @click="exportData" class="btn btn-primary text-white mr-1">
+            		<button v-if="!isSearchList" class="btn btn-primary" @click="adding = true"><span class="fa fa-plus add"></span> Add Client</button>
+	                <a v-if="!isSearchList" @click="exportData" class="btn btn-primary text-white mr-1">
 	                    <i class="fas fa-file-export add"></i>
 	                    Export
 	                </a>
             	</div>
-		        <div class="modal-footer">
-		            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-		        </div>
             </div>
         </div>
     </div>
@@ -95,7 +92,7 @@
 	import FileUpload from './FileUpload.vue';
 	export default {
 		components: { FileUpload },
-		props: ['clients', 'company'],
+		props: ['clients', 'company', 'isSearchList'],
 		data() {
 			return {
 				fileClient: null,
@@ -108,6 +105,10 @@
 			}
 		},
 		methods: {
+			getClient(client) {
+				if (this.isSearchList)
+                	this.$store.state.selected_client = this.$store.state.clients.find(c => c.fullname === client.fullname);
+			},
 			exportData() {
 				axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
 				axios({

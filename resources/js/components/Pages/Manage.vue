@@ -25,7 +25,7 @@
 				</div>
 			</div>
 			<div class="col-md-6">
-                <company @AddClient="AddClient" @uploadFile="showFileData" @uploadFileClient="showFileData" />
+                <company @AddClient="AddClient" @uploadFile="showFileData" @uploadFileClient="showFileData" :isSearchList="false" />
             </div>
 		</div>
         <div class="row mb-3">

@@ -40,6 +40,7 @@ export const store = new Vuex.Store({
 		interval: null,
 		csats: null,
 		settings: null,
+		isClientModal: false,
 	},
 	getters: {
 		voipAllowed(state) {
@@ -87,6 +88,9 @@ export const store = new Vuex.Store({
 		}
 	},
 	mutations: {
+		setClientModal(state, isClientModal) {
+			state.isClientModal = isClientModal;
+		},
 		retrieveToken(state, token) {
 			state.token = token;
 		},

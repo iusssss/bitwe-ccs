@@ -8,6 +8,7 @@ import FileData from './views/company/FileData.vue'
 import CompanytypeCreate from './views/companytype/Create.vue'
 import ClientCreate from './views/client/Create.vue'
 import TempClient from './views/client/TempClient.vue'
+import Companies from './components/Company.vue'
 import ServiceCreate from './views/service/Create.vue'
 import SubjectCreate from './views/transactionsubject/Create.vue'
 
@@ -53,6 +54,10 @@ const router = new Router({
 					path: '/home/tempClient',
 					component: TempClient
 				},
+				{
+					path: '/home/companies',
+					component: Companies
+				}
 			]
 		},
 		{

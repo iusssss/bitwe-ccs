@@ -2,7 +2,12 @@
 	<div class="card">
 		<div class="card-header">
             <div class="float-left"><h3 class="text-primary">Companies</h3></div>
-            <div class="text-right">
+            <div v-if="isSearchList" class="text-right">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div v-if="!isSearchList" class="text-right">
                 <a @click="exportData" class="btn btn-primary mr-1">
                     <i class="fas fa-file-export add"></i>
                     Export
@@ -15,8 +20,8 @@
         </div>
         <div class="card-body">
 			<div>
-				<div class="d-flex justify-content-between">
-					<fileUpload :name="'company'" @uploadFile="uploadFileCompany" @fileChange="handleFileUploadCompany" />
+				<div class="d-flex justify-content-between mb-3">
+					<fileUpload v-if="!isSearchList" :name="'company'" @uploadFile="uploadFileCompany" @fileChange="handleFileUploadCompany" />
 					<autocomplete @input="getCompanyText" :items="companiesName" :placeholder="'Search Company'" />
 				</div>
                 <serverErrors :serverErrors="serverErrors" />
@@ -86,9 +91,9 @@
 									</button>
 								</div>
 								<div v-else class="d-flex justify-content-end">
-									<button class="btn btn-primary mr-1" title="View Clients" data-toggle="modal" data-target="#clientPopup" @click="getCompany(_company)"><i class="fa fa-users"></i></button>
-									<button class="btn btn-primary mr-1" @click="editCompany(_company)"><i class="fa fa-edit"></i></button>
-									<button class="btn btn-primary" @click="deleteCompany(_company, i)"><i class="fa fa-trash"></i></button>
+									<button class="btn btn-primary mr-1" title="View Clients" @click="getCompany(_company)"><i class="fa fa-users"></i></button>
+									<button v-if="!isSearchList" class="btn btn-primary mr-1" @click="editCompany(_company)"><i class="fa fa-edit"></i></button>
+									<button v-if="!isSearchList" class="btn btn-primary" @click="deleteCompany(_company, i)"><i class="fa fa-trash"></i></button>
 								</div>	
 							</td>
 						</tr>
@@ -99,7 +104,7 @@
         <div class="card-footer d-flex justify-content-center">
             <pagination :show-disabled="true" :data="companies" @pagination-change-page="getCompanyResults" :limit="10"></pagination>
         </div>
-        <clients :clients="clients" :company="company" @addClient="addClient" @deleteClient="deleteClient" />
+        <clients :isSearchList="isSearchList" :clients="clients" :company="company" @addClient="addClient" @deleteClient="deleteClient" />
 	</div>
 </template>
 <script>
@@ -107,6 +112,7 @@
 	import FileUpload from './FileUpload.vue';
 	import Clients from './Clients.vue';
 	export default {
+		props: ['isSearchList'],
 		components: { FileUpload, Clients, Autocomplete },
 		data() {
 			return {
@@ -128,6 +134,7 @@
 			}
 		},
 		mounted() {
+			let ref = this;
 			this.LoadCompanies();
 		},
 		methods: {
@@ -259,6 +266,8 @@
 				axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
 				axios.get(`/api/clients/company/${this.company.id}`)
 				.then((response) => {
+					$("#clientPopup").modal("show")
+					this.$store.commit("setClientModal", true);
 					this.clients = response.data.data;
 				})
 			},
