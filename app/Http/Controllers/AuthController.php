@@ -35,6 +35,9 @@ class AuthController extends Controller
     }
 
     function register(Request $request) {
+        $messages = [   
+            'password.regex' => "Password must include both lower and upper case character, at least one number and symbol, and at least be 8 characters long"
+        ];
 		$validated = $request->validate([
             'name' => ['required', 'string', 'max:50', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -44,7 +47,7 @@ class AuthController extends Controller
                 'min:8', 'max:25'
             ],
             'phone_number' => ['required','regex:/(9)[0-9]{9}/','max:10']
-		]);
+		], $messages);
 		$user = User::create([
 			'name' => $validated['name'],
 			'email' => $validated['email'],
