@@ -51,7 +51,7 @@
 			<h5 class="m-3 text-muted font-weight-bold">
 				<a class="text-muted" href="" @click="setTickets('AllTickets')" data-toggle="modal" data-target="#popup">Total Tickets: {{ totalTickets }}</a>
 				<br>
-				<a class="text-info" href="" @click="setTickets('Endorsed')" data-toggle="modal" data-target="#popup">Tickets for Resigning: {{ ticketsForResigning.length }}</a>
+				<a class="text-info" href="" @click="setTickets('Endorsed')" data-toggle="modal" data-target="#popup">Tickets for Reassigning: {{ ticketsForResigning.length }}</a>
 				<br>
 				<!-- <a class="text-danger" href="" @click="setTickets('Unregistered')" data-toggle="modal" data-target="#popup">Unregistered Tickets: {{ unregisteredTickets.length }}</a> -->
 			</h5>
