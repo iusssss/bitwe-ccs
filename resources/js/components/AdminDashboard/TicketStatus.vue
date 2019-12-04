@@ -51,7 +51,7 @@
 			<h5 class="m-3 text-muted font-weight-bold">
 				<a class="text-muted" href="" @click="setTickets('AllTickets')" data-toggle="modal" data-target="#popup">Total Tickets: {{ totalTickets }}</a>
 				<br>
-				<a class="text-info" href="" @click="setTickets('EndorsedTickets')" data-toggle="modal" data-target="#popup">Tickets for Resigning: {{ ticketsForResigning.length }}</a>
+				<a class="text-info" href="" @click="setTickets('Endorsed')" data-toggle="modal" data-target="#popup">Tickets for Resigning: {{ ticketsForResigning.length }}</a>
 				<br>
 				<!-- <a class="text-danger" href="" @click="setTickets('Unregistered')" data-toggle="modal" data-target="#popup">Unregistered Tickets: {{ unregisteredTickets.length }}</a> -->
 			</h5>
@@ -86,7 +86,7 @@
 												</tbody>
 											</table>
 										</div>
-										<div v-if="status=='EndorsedTickets'">
+										<div v-if="status=='Endorsed'">
 											<table class="table">
 												<thead>
 													<th>Ticket #</th>
@@ -231,7 +231,7 @@
 						break;
 					case 'AllTickets' : this.tickets = this.$store.state.tickets
 						break;
-					case 'EndorsedTickets' : this.tickets = this.ticketsForResigning
+					case 'Endorsed' : this.tickets = this.ticketsForResigning
 						break;
 					case 'Unregistered' : this.tickets = this.unregisteredTickets
 						break;

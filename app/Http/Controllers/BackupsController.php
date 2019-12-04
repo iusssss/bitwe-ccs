@@ -21,6 +21,9 @@ class BackupsController extends Controller
     	return 'success';
     }
     public function restorePaths() {
-    	return array_reverse(Backup::getRestorationFiles());
+        $paths = Backup::getRestorationFiles();
+        rsort($paths);
+        array_splice($paths, 5);
+        return $paths;
     }
 }
